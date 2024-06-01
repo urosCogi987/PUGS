@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TaxiApp.Kernel\TaxiApp.Kernel.csproj" />
-  </ItemGroup>
-
 </Project>
