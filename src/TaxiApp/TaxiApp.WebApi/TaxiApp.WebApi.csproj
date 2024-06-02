@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaxiApp.Application\TaxiApp.Application.csproj" />
+    <ProjectReference Include="..\TaxiApp.Infrastructure\TaxiApp.Infrastructure.csproj" />
     <ProjectReference Include="..\TaxiApp.Persistence\TaxiApp.Persistence.csproj" />
   </ItemGroup>
 

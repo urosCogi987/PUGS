@@ -6,6 +6,11 @@ namespace TaxiApp.WebApi.FluentValidation
 {
     public sealed class RegisterUserRequestValidator : AbstractValidator<RegisterUserRequest>
     {
+        private const int _minPasswordLength = 8;
+        private const int _maxPasswordLength = 50;
+        private readonly string _passwordConstaints 
+            = $"Must be between {_minPasswordLength} and {_maxPasswordLength} characters.";
+
         public RegisterUserRequestValidator()
         {
             RuleFor(x => x.Username)
@@ -14,6 +19,7 @@ namespace TaxiApp.WebApi.FluentValidation
 
             RuleFor(x => x.Email)
                 .NotEmpty()
+                .WithMessage(FluentValidationMessages.EmailIsRequired)
                 .EmailAddress()
                 .WithMessage(FluentValidationMessages.EmailFormatIncorrect);
 
@@ -27,7 +33,9 @@ namespace TaxiApp.WebApi.FluentValidation
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .WithMessage(FluentValidationMessages.PasswordIsRequired);
+                .WithMessage(FluentValidationMessages.PasswordIsRequired)                
+                .Length(_minPasswordLength, _maxPasswordLength)
+                .WithMessage(FluentValidationMessages.PasswordLengthInvalid + _passwordConstaints);
 
             RuleFor(x => x.RepeatPassword)
                 .NotEmpty()

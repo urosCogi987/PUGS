@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TaxiApp.Kernel.Repositories;
 
 namespace TaxiApp.Persistence.Repositories
@@ -21,7 +22,7 @@ namespace TaxiApp.Persistence.Repositories
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
-        }
+        }        
 
         public async Task<T?> GetItemByIdAsync(long id)
         {
@@ -40,5 +41,11 @@ namespace TaxiApp.Persistence.Repositories
             _dbContext.Set<T>().Attach(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> predicate)
+            => await _dbContext.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
+
+        public async Task<T?> Find(Expression<Func<T, bool>> predicate)
+            => await _dbContext.Set<T>().AsNoTracking().Where(predicate).FirstOrDefaultAsync();                                        
     }
 }

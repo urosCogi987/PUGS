@@ -25,6 +25,8 @@ namespace TaxiApp.Domain.Entities
         public DateTime DateOfBirth { get; private set; }
         public UserRole UserRole { get; private set; }
 
+        public ICollection<RefreshToken> RefreshTokens { get; private set; }
+
         public void SetRole(UserRole role)
             => UserRole = role;
 

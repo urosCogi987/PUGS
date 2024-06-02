@@ -14,7 +14,11 @@ namespace TaxiApp.Persistence.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasIndex(x => x.Username).IsUnique();
-            builder.HasIndex(x => x.Email).IsUnique();                        
+            builder.HasIndex(x => x.Email).IsUnique();
+
+            //builder.HasMany(x => x.RefreshTokens)
+            //    .WithOne()
+            //    .HasForeignKey(x => x.UserId);
         }
     }
 }

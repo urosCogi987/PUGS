@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaxiApp.Application.Dtos;
 using TaxiApp.WebApi.Models;
 
 namespace TaxiApp.WebApi.Controllers
@@ -15,6 +16,13 @@ namespace TaxiApp.WebApi.Controllers
             Guid id = await mediator.Send(registerUserRequest.MapToRegisterUserCommand());
             logger.LogInformation($"User with id: {id} registered");
             return Ok(id);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUserRequest)
+        {
+            TokensDto tokensDto = await mediator.Send(loginUserRequest.MapToLoginUserCommand());
+            return Ok(new LoginUserResponse(tokensDto));
         }
     }
 }
