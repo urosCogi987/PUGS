@@ -17,10 +17,10 @@ namespace TaxiApp.Application.Users.RegisterUser
             await ValidateRequest(request);
             var hashedPassword = passwordHasher.Hash(request.Password);
 
-            var user = User.Create(Guid.NewGuid(), request.Username, request.Email, hashedPassword,
-                                   request.Name, request.Surname, request.Address, request.DateOfBirth);
-
-            user.SetRole(UserRole.User);
+            // TODO: FROM REQUEST ROLE
+            var user = User.Create(Guid.NewGuid(), request.Username, request.Email,
+                                   hashedPassword, request.Name, request.Surname, 
+                                   request.Address, request.DateOfBirth, UserRole.User);            
 
             var persistedUser = await userRepository.AddItemAsync(user);            
             return persistedUser.Id;

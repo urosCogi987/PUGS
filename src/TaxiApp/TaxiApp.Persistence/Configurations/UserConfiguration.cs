@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Persistence.Constants;
+using TaxiApp.Persistence.SeedData;
 
 namespace TaxiApp.Persistence.Configurations
 {
@@ -16,9 +17,7 @@ namespace TaxiApp.Persistence.Configurations
             builder.HasIndex(x => x.Username).IsUnique();
             builder.HasIndex(x => x.Email).IsUnique();
 
-            //builder.HasMany(x => x.RefreshTokens)
-            //    .WithOne()
-            //    .HasForeignKey(x => x.UserId);
+            builder.HasData(Data._admins);
         }
     }
 }

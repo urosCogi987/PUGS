@@ -2,7 +2,7 @@
 {
     public class RefreshToken : BaseEntity
     {
-        public RefreshToken(Guid id, Guid userId, string value) : base(id)
+        private RefreshToken(Guid id, Guid userId, string value) : base(id)
         {
             UserId = userId;
             Value = value;

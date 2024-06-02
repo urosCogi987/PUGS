@@ -4,5 +4,7 @@
     {
         internal const string Users = nameof(Users);
         internal const string RefreshTokens = nameof(RefreshTokens);
+        internal const string Roles = nameof(Roles);
+        internal const string Permissions = nameof(Permissions);
     }
 }

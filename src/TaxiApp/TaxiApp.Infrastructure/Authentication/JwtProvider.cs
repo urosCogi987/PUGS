@@ -7,7 +7,7 @@ using System.Text;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Domain.Entities;
 
-namespace TaxiApp.Infrastructure.Services
+namespace TaxiApp.Infrastructure.Authentication
 {
     public sealed class JwtProvider(IConfiguration configuration) : IJwtProvider
     {
