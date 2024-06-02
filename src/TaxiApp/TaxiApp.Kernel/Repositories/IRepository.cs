@@ -1,4 +1,6 @@
-﻿namespace TaxiApp.Kernel.Repositories
+﻿using System.Linq.Expressions;
+
+namespace TaxiApp.Kernel.Repositories
 {
     public interface IRepository<T> where T : class
     {
@@ -7,5 +9,7 @@
         Task<T> AddItemAsync(T entity);
         Task UpdateItemAsync(T entity);
         Task DeleteItemAsync(T entity);
+        Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> predicate);
+        Task<T?> Find(Expression<Func<T, bool>> predicate);
     }
 }

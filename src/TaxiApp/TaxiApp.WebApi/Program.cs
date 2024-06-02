@@ -1,47 +1,69 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using TaxiApp.Application.Abstractions;
 using TaxiApp.Domain.Repositories;
+using TaxiApp.Infrastructure.Services;
 using TaxiApp.Kernel.Repositories;
 using TaxiApp.Persistence;
 using TaxiApp.Persistence.Repositories;
+using TaxiApp.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-builder.Services.AddControllers();
-
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssembly(TaxiApp.WebApi.AssemblyReference.Assembly);
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(TaxiApp.Application.AssemblyReference.Assembly);
-});
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+ConfigureServices(builder.Services);
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+ConfigureApp(app);
+app.Run();
+ 
+void ConfigureServices(IServiceCollection services)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+    services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(connectionString));
+
+    services.AddControllers();
+
+    services.AddFluentValidationAutoValidation();
+    services.AddFluentValidationClientsideAdapters();
+    services.AddValidatorsFromAssembly(TaxiApp.WebApi.AssemblyReference.Assembly);
+
+    services.AddEndpointsApiExplorer();
+
+    services.AddExceptionHandler<AppExceptionHandler>();
+
+    services.AddSwaggerGen();
+
+    ConfigureMediator(services);
+
+    services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+    services.AddScoped<IUserRepository, UserRepository>();
+    services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+    services.AddScoped<IPasswordHasher, PasswordHasher>();
+    services.AddScoped<IJwtProvider, JwtProvider>();
 }
 
-app.UseHttpsRedirection();
+void ConfigureApp(WebApplication app)
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-app.UseAuthorization();
+    app.UseExceptionHandler(_ => { });
 
-app.MapControllers();
+    app.UseHttpsRedirection();
 
-app.Run();
+    app.UseAuthorization();
+
+    app.MapControllers();
+}
+
+void ConfigureMediator(IServiceCollection services)
+{
+    services.AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssembly(TaxiApp.Application.AssemblyReference.Assembly);
+    });
+}
