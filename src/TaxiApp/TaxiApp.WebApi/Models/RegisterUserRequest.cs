@@ -1,4 +1,5 @@
 ﻿using TaxiApp.Application.Users.RegisterUser;
+using TaxiApp.WebApi.Models.Enums;
 
 namespace TaxiApp.WebApi.Models
 {
@@ -11,9 +12,11 @@ namespace TaxiApp.WebApi.Models
         public string Name { get; set; }
         public string Surname { get; set; }                
         public string Address { get; set; }
-        public DateTime DateOfBirth { get; set; }        
+        public DateTime DateOfBirth { get; set; }
+        public string RoleName { get; set; } = Kernel.Constants.RoleNames.User;
+
 
         public RegisterUserCommand MapToRegisterUserCommand()
-            => new RegisterUserCommand(Username, Email, Password, Name, Surname, Address, DateOfBirth);
+            => new RegisterUserCommand(Username, Email, Password, Name, Surname, Address, DateOfBirth, RoleName);
     }
 }

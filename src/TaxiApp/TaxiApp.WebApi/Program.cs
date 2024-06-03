@@ -32,10 +32,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddAuthorization();
     services.AddScoped<IPermissionService, PermissionService>();
     services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-    services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-    //services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-    //services.AddScoped<IPermissionService, PermissionService>();
-    //services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+    services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();    
 
     services.AddControllers();
 
@@ -45,9 +42,7 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddEndpointsApiExplorer();
 
-    services.AddExceptionHandler<AppExceptionHandler>();
-
-    //services.AddSwaggerGen();
+    services.AddExceptionHandler<AppExceptionHandler>();    
 
     ConfigureSwagger(services);
     ConfigureMediator(services);
@@ -55,6 +50,8 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     services.AddScoped<IUserRepository, UserRepository>();
     services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+    services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+    services.AddScoped<IRoleRepository, RoleRepository>();
 
     services.AddScoped<IPasswordHasher, PasswordHasher>();
     services.AddScoped<IJwtProvider, JwtProvider>();

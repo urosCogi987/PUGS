@@ -8,5 +8,6 @@ namespace TaxiApp.Application.Users.RegisterUser
                                              string Name,
                                              string Surname,
                                              string Address,
-                                             DateTime DateOfBirth) : IRequest<Guid>;
+                                             DateTime DateOfBirth,
+                                             string RoleName) : IRequest<Guid>;
 }

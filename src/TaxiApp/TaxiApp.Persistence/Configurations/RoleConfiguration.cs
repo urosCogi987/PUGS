@@ -18,7 +18,8 @@ namespace TaxiApp.Persistence.Configurations
                 .UsingEntity<RolePermission>();
 
             builder.HasMany(x => x.Users)
-                .WithMany();
+                .WithMany()
+                .UsingEntity<UserRole>();
 
             builder.HasData(Data._roles);
         }

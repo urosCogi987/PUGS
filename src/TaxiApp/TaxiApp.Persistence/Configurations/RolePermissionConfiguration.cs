@@ -11,7 +11,7 @@ namespace TaxiApp.Persistence.Configurations
         {
             builder.HasKey(x => new {x.RoleId, x.PermissionId});
 
-            builder.HasData(Data.RolePermissions);
+            builder.HasData(Data._rolePermissions);
         }
     }
 }
