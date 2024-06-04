@@ -5,7 +5,7 @@ using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Kernel.Exeptions;
 
-namespace TaxiApp.Application.Users.RegisterUser
+namespace TaxiApp.Application.Users.Register
 {
     internal sealed class RegisterUserCommandHandler(
         IUserRepository userRepository,

@@ -6,7 +6,7 @@ using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Kernel.Exeptions;
 
-namespace TaxiApp.Application.Users.LoginUser
+namespace TaxiApp.Application.Users.Login
 {
     internal sealed class LoginUserCommandHandler(
         IUserRepository userRepository,

@@ -1,4 +1,4 @@
-﻿using TaxiApp.Application.Users.LoginUser;
+﻿using TaxiApp.Application.Users.Login;
 
 namespace TaxiApp.WebApi.Models
 {

@@ -23,14 +23,14 @@ namespace TaxiApp.Persistence.SeedData
 
         internal static List<User> _admins = new List<User>()
         {
-            User.Create(_headAdminId,
+            User.CreateAdmin(_headAdminId,
                         "admin",
                         "admin@admin.com",
                         "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=",
                         "admin",
                         "admin",
                         "address",
-                        DateTime.UtcNow)
+                        new DateTime(1997, 1, 19, 0, 40, 0).ToUniversalTime())
         };
 
         internal static List<RolePermission> _rolePermissions = new List<RolePermission>()

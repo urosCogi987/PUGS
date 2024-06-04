@@ -1,5 +1,4 @@
-﻿using TaxiApp.Application.Users.RegisterUser;
-using TaxiApp.WebApi.Models.Enums;
+﻿using TaxiApp.Application.Users.Register;
 
 namespace TaxiApp.WebApi.Models
 {
