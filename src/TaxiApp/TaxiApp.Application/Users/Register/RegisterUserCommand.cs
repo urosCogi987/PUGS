@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TaxiApp.Application.Users.RegisterUser
+namespace TaxiApp.Application.Users.Register
 {
     public sealed record RegisterUserCommand(string Username,
                                              string Email,
@@ -8,5 +8,6 @@ namespace TaxiApp.Application.Users.RegisterUser
                                              string Name,
                                              string Surname,
                                              string Address,
-                                             DateTime DateOfBirth) : IRequest<Guid>;
+                                             DateTime DateOfBirth,
+                                             string RoleName) : IRequest<Guid>;
 }

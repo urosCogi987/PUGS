@@ -14,5 +14,7 @@
         public const string DateOfBirthIsRequired = "Date of birth is a required field.";
         public const string DateOfBirthInvalid = "Date of birth can not be less than now.";
         public const string AddressIsRequired = "Address is a required field.";
+        public const string RoleNameIsRequired = "Role name is a required field";
+        public const string ValidRoleNames = "Please only use: ";
     }
 }

@@ -1,6 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Dtos;
+using TaxiApp.Infrastructure.Authentication;
+using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models;
 
 namespace TaxiApp.WebApi.Controllers
@@ -23,6 +27,15 @@ namespace TaxiApp.WebApi.Controllers
         {
             TokensDto tokensDto = await mediator.Send(loginUserRequest.MapToLoginUserCommand());
             return Ok(new LoginUserResponse(tokensDto));
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        [HasPermission(PermissionNames.TestPermission)]
+        public async Task<IActionResult> Logout()
+        {
+            
+            return Ok("radi autorizacija/autentikacija");
         }
     }
 }

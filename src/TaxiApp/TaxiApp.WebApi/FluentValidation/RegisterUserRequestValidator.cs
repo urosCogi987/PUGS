@@ -8,8 +8,9 @@ namespace TaxiApp.WebApi.FluentValidation
     {
         private const int _minPasswordLength = 8;
         private const int _maxPasswordLength = 50;
-        private readonly string _passwordConstaints 
+        private readonly string _passwordConstaints
             = $"Must be between {_minPasswordLength} and {_maxPasswordLength} characters.";
+        private static List<string> _roleNames = new() { Kernel.Constants.RoleNames.User, Kernel.Constants.RoleNames.User };
 
         public RegisterUserRequestValidator()
         {
@@ -52,6 +53,12 @@ namespace TaxiApp.WebApi.FluentValidation
             RuleFor(x => x.Address)
                 .NotEmpty()
                 .WithMessage(FluentValidationMessages.AddressIsRequired);
+
+            RuleFor(x => x.RoleName)
+                .NotEmpty()
+                .WithMessage(FluentValidationMessages.RoleNameIsRequired)
+                .Must(x => _roleNames.Contains(x))
+                .WithMessage(FluentValidationMessages.ValidRoleNames + string.Join(", ", _roleNames));
         }
     }
 }
