@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Dtos;
+using TaxiApp.Application.Users.Logout;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models;
@@ -34,8 +35,8 @@ namespace TaxiApp.WebApi.Controllers
         [HasPermission(PermissionNames.TestPermission)]
         public async Task<IActionResult> Logout()
         {
-            
-            return Ok("radi autorizacija/autentikacija");
+            await mediator.Send(new LogoutUserCommand());
+            return Ok();
         }
     }
 }

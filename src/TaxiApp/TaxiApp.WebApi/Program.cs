@@ -3,12 +3,14 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Infrastructure.Authentication;
+using TaxiApp.Infrastructure.HostedServices;
 using TaxiApp.Infrastructure.Services;
 using TaxiApp.Kernel.Repositories;
 using TaxiApp.Persistence;
@@ -55,6 +57,10 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddScoped<IPasswordHasher, PasswordHasher>();
     services.AddScoped<IJwtProvider, JwtProvider>();
+    services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    services.AddScoped<IUserContext, UserContext>();
+
+    services.AddHostedService<RefreshTokenDeletingService>();
 }
 
 void ConfigureApp(WebApplication app)

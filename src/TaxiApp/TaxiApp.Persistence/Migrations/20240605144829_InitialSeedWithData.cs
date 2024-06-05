@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaxiApp.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialWithSeedData : Migration
+    public partial class InitialSeedWithData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -88,6 +88,7 @@ namespace TaxiApp.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
+                    IsUsed = table.Column<bool>(type: "boolean", nullable: false),
                     TokenExpiryTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -130,9 +131,9 @@ namespace TaxiApp.Persistence.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("c423625d-2538-48b9-b79c-d49f13290511"), "RoleAdmin" },
-                    { new Guid("d1338182-7b99-4c8a-b80d-6c153af4c0ed"), "CanViewAllUsers" },
-                    { new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9"), "TestPermission" }
+                    { new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d"), "TestPermission" },
+                    { new Guid("31bfd06b-bc09-4b41-bed3-98941528f3a4"), "CanViewAllUsers" },
+                    { new Guid("e538383d-d04d-4a57-a104-a5ddb1b9d602"), "RoleAdmin" }
                 });
 
             migrationBuilder.InsertData(
@@ -140,32 +141,32 @@ namespace TaxiApp.Persistence.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("2250fd64-98aa-424a-9c5f-08054580146c"), "Driver" },
-                    { new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"), "Admin" },
-                    { new Guid("b967b8bb-6980-4aa1-86a8-73e3261b3a58"), "User" }
+                    { new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"), "Admin" },
+                    { new Guid("7fc6e443-3e3f-46ec-a7f0-b8ce3cd57690"), "Driver" },
+                    { new Guid("c79cb798-a3b9-486a-92a9-7009a6aca75b"), "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "DateOfBirth", "Email", "IsAdminApproved", "IsEmailVerified", "Name", "Password", "Surname", "Username" },
-                values: new object[] { new Guid("61b476a3-7651-4fe4-9985-f573a664fce2"), "address", new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc), "admin@admin.com", true, true, "admin", "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=", "admin", "admin" });
+                values: new object[] { new Guid("60c27584-50b4-421d-8795-069ef298cf47"), "address", new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc), "admin@admin.com", true, true, "admin", "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "RolePermission",
                 columns: new[] { "PermissionId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9"), new Guid("2250fd64-98aa-424a-9c5f-08054580146c") },
-                    { new Guid("c423625d-2538-48b9-b79c-d49f13290511"), new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010") },
-                    { new Guid("d1338182-7b99-4c8a-b80d-6c153af4c0ed"), new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010") },
-                    { new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9"), new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010") },
-                    { new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9"), new Guid("b967b8bb-6980-4aa1-86a8-73e3261b3a58") }
+                    { new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d"), new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d") },
+                    { new Guid("31bfd06b-bc09-4b41-bed3-98941528f3a4"), new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d") },
+                    { new Guid("e538383d-d04d-4a57-a104-a5ddb1b9d602"), new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d") },
+                    { new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d"), new Guid("7fc6e443-3e3f-46ec-a7f0-b8ce3cd57690") },
+                    { new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d"), new Guid("c79cb798-a3b9-486a-92a9-7009a6aca75b") }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"), new Guid("61b476a3-7651-4fe4-9985-f573a664fce2") });
+                values: new object[] { new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"), new Guid("60c27584-50b4-421d-8795-069ef298cf47") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",

@@ -22,7 +22,13 @@ namespace TaxiApp.Persistence.Repositories
         {
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
-        }        
+        }
+
+        public async Task DeleteItemsRangeAsync(IEnumerable<T> items)
+        {
+            _dbContext.Set<T>().RemoveRange(items);
+            await _dbContext.SaveChangesAsync();
+        }
 
         public async Task<T?> GetItemByIdAsync(long id)
         {

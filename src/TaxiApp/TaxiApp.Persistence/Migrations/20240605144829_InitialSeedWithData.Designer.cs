@@ -12,8 +12,8 @@ using TaxiApp.Persistence;
 namespace TaxiApp.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240604091626_InitialWithSeedData")]
-    partial class InitialWithSeedData
+    [Migration("20240605144829_InitialSeedWithData")]
+    partial class InitialSeedWithData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,17 +42,17 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d1338182-7b99-4c8a-b80d-6c153af4c0ed"),
+                            Id = new Guid("31bfd06b-bc09-4b41-bed3-98941528f3a4"),
                             Name = "CanViewAllUsers"
                         },
                         new
                         {
-                            Id = new Guid("c423625d-2538-48b9-b79c-d49f13290511"),
+                            Id = new Guid("e538383d-d04d-4a57-a104-a5ddb1b9d602"),
                             Name = "RoleAdmin"
                         },
                         new
                         {
-                            Id = new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9"),
+                            Id = new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d"),
                             Name = "TestPermission"
                         });
                 });
@@ -62,6 +62,9 @@ namespace TaxiApp.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("TokenExpiryTime")
                         .HasColumnType("timestamp with time zone");
@@ -97,17 +100,17 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"),
+                            Id = new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("b967b8bb-6980-4aa1-86a8-73e3261b3a58"),
+                            Id = new Guid("c79cb798-a3b9-486a-92a9-7009a6aca75b"),
                             Name = "User"
                         },
                         new
                         {
-                            Id = new Guid("2250fd64-98aa-424a-9c5f-08054580146c"),
+                            Id = new Guid("7fc6e443-3e3f-46ec-a7f0-b8ce3cd57690"),
                             Name = "Driver"
                         });
                 });
@@ -129,28 +132,28 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"),
-                            PermissionId = new Guid("c423625d-2538-48b9-b79c-d49f13290511")
+                            RoleId = new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"),
+                            PermissionId = new Guid("e538383d-d04d-4a57-a104-a5ddb1b9d602")
                         },
                         new
                         {
-                            RoleId = new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"),
-                            PermissionId = new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9")
+                            RoleId = new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"),
+                            PermissionId = new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d")
                         },
                         new
                         {
-                            RoleId = new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010"),
-                            PermissionId = new Guid("d1338182-7b99-4c8a-b80d-6c153af4c0ed")
+                            RoleId = new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d"),
+                            PermissionId = new Guid("31bfd06b-bc09-4b41-bed3-98941528f3a4")
                         },
                         new
                         {
-                            RoleId = new Guid("b967b8bb-6980-4aa1-86a8-73e3261b3a58"),
-                            PermissionId = new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9")
+                            RoleId = new Guid("c79cb798-a3b9-486a-92a9-7009a6aca75b"),
+                            PermissionId = new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d")
                         },
                         new
                         {
-                            RoleId = new Guid("2250fd64-98aa-424a-9c5f-08054580146c"),
-                            PermissionId = new Guid("f5d09285-66d7-4838-bccd-de553d9dcbf9")
+                            RoleId = new Guid("7fc6e443-3e3f-46ec-a7f0-b8ce3cd57690"),
+                            PermissionId = new Guid("233ff579-b2bf-4d50-8577-38f9b6cdfd6d")
                         });
                 });
 
@@ -206,7 +209,7 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("61b476a3-7651-4fe4-9985-f573a664fce2"),
+                            Id = new Guid("60c27584-50b4-421d-8795-069ef298cf47"),
                             Address = "address",
                             DateOfBirth = new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc),
                             Email = "admin@admin.com",
@@ -236,8 +239,8 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("61b476a3-7651-4fe4-9985-f573a664fce2"),
-                            RoleId = new Guid("99ac936d-301d-4ea4-9695-884a9eeb8010")
+                            UserId = new Guid("60c27584-50b4-421d-8795-069ef298cf47"),
+                            RoleId = new Guid("30932ff9-6dce-4864-bb47-b0b2160e341d")
                         });
                 });
 
