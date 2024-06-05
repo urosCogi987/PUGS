@@ -7,10 +7,12 @@
             UserId = userId;
             Value = value;
             TokenExpiryTime = DateTime.UtcNow;
+            IsUsed = false;
         }
 
         public Guid UserId { get; private set; }
         public string Value { get; private set; }
+        public bool IsUsed { get; private set; }
         public DateTime TokenExpiryTime { get; private set; }
 
 

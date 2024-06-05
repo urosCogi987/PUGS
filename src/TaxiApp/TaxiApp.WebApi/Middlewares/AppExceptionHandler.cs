@@ -27,7 +27,7 @@ namespace TaxiApp.WebApi.Middlewares
                         Status = (int)HttpStatusCode.BadRequest,
                         Detail = invalidRequestException.Message,
                     };
-                    break;
+                    break;                                    
                 default:
                     result = new ProblemDetails
                     {

@@ -16,7 +16,7 @@ namespace TaxiApp.Application.Users.Login
     {
         public async Task<TokensDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            User? user = await userRepository.Find(x => x.Email == request.Email);
+                User? user = await userRepository.Find(x => x.Email == request.Email);
             if (user is null)
                 throw new InvalidRequestException(DomainErrors.InvalidCredentials);
 
