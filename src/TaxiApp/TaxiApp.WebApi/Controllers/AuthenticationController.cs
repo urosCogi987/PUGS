@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Dtos;
@@ -37,6 +36,13 @@ namespace TaxiApp.WebApi.Controllers
         {
             await mediator.Send(new LogoutUserCommand());
             return Ok();
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest)
+        {
+            TokensDto tokensDto = await mediator.Send(refreshTokenRequest.MapToRefreshTokenCommand());
+            return Ok(new LoginUserResponse(tokensDto));
         }
     }
 }
