@@ -2,5 +2,5 @@
 
 namespace TaxiApp.Application.Users.Logout
 {
-    public sealed record LogoutUserCommand : IRequest;    
+    public sealed record LogoutUserCommand(string RefreshToken) : IRequest;    
 }

@@ -18,6 +18,9 @@
 
         public User? User { get; private set; }
 
+        public void UseToken()
+            => IsUsed = true;
+
         public static RefreshToken Create(Guid id, Guid userId,  string value)
             => new RefreshToken(id, userId,  value);
     }

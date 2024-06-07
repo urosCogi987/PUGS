@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using TaxiApp.Application.Abstractions;
+using TaxiApp.Application.Constants;
 using TaxiApp.Application.Dtos;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
+using TaxiApp.Kernel.Exeptions;
 
 namespace TaxiApp.Application.Users.Refresh
 {
@@ -13,17 +15,32 @@ namespace TaxiApp.Application.Users.Refresh
         IUserRepository userRepository) : IRequestHandler<RefreshTokenCommand, TokensDto>
     {
         public async Task<TokensDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
-        {
-            // ima li smisla? razmisli sta treba sve u slucaju refresh-a
+        {            
             if (!userContext.IsAuthenticated)
                 throw new ApplicationException("User not authenticated.");
+         
+            User? user = await userRepository.GetUserWithRefreshTokens(userContext.UserId);
+            if (user is null)
+                throw new ApplicationException("User does not exist.");
 
-            User user = await userRepository.GetItemByIdAsync(userContext.UserId);
+            RefreshToken? refreshToken = user?.RefreshTokens?.FirstOrDefault(x => x.Value == request.RefreshToken);
+            if (refreshToken is null)            
+                throw new InvalidRequestException(DomainErrors.InvalidRefreshToken);
+            
+            if (refreshToken.IsUsed)
+            {
+                await refreshTokenRepository.DeleteItemsRangeAsync(user!.RefreshTokens!);
+            }
+            else
+            {
+                refreshToken.UseToken();
+                await refreshTokenRepository.UpdateItemAsync(refreshToken);
+            }
 
-            RefreshToken refreshToken = 
-                await refreshTokenRepository.AddItemAsync(RefreshToken.Create(Guid.NewGuid(), user.Id, jwtProvider.GenerateEmptyToken()));
+            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken());
+            await refreshTokenRepository.AddItemAsync(RefreshToken.Create(Guid.NewGuid(), user!.Id, tokensDto.RefreshToken));
 
-            return TokensDto.Create(refreshToken.Value, jwtProvider.GenerateAccessToken(user));
+            return tokensDto;
         }
     }
 }

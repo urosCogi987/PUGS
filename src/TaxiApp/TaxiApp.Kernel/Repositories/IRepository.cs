@@ -4,7 +4,7 @@ namespace TaxiApp.Kernel.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<T?> GetItemByIdAsync(long id);
+        Task<T?> GetItemByIdAsync(Guid id);
         Task<IEnumerable<T>> GetItemsAsync();
         Task<T> AddItemAsync(T entity);
         Task UpdateItemAsync(T entity);

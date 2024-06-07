@@ -14,11 +14,17 @@ namespace TaxiApp.Application.Users.Logout
             if (!userContext.IsAuthenticated)
                 throw new ApplicationException("User not authenticated.");
 
-            List<RefreshToken> tokens = (await refreshTokenRepository.FindAll(x => x.UserId == userContext.UserId && !x.IsUsed)).ToList();
-            if (!tokens.Any())
-                throw new ApplicationException("Tokens do not exist.");
-
-            await refreshTokenRepository.DeleteItemsRangeAsync(tokens);
+            RefreshToken? token = await refreshTokenRepository.Find(x => x.UserId == userContext.UserId && !x.IsUsed && x.Value == request.RefreshToken);
+            if (token is not null)
+            {
+                await refreshTokenRepository.DeleteItemAsync(token);
+            }            
+            else
+            {
+                List<RefreshToken> refreshTokens = (await refreshTokenRepository.FindAll(x => x.UserId == userContext.UserId)).ToList();
+                if (refreshTokens.Any()) 
+                    await refreshTokenRepository.DeleteItemsRangeAsync(refreshTokens);
+            }                   
         }
     }
 }

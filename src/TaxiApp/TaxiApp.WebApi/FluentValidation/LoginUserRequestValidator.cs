@@ -10,7 +10,9 @@ namespace TaxiApp.WebApi.FluentValidation
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage(FluentValidationMessages.EmailIsRequired);
+                .WithMessage(FluentValidationMessages.EmailIsRequired)
+                .EmailAddress()
+                .WithMessage(FluentValidationMessages.EmailFormatIncorrect);
 
             RuleFor(x => x.Password)
                 .NotEmpty()
