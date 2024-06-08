@@ -30,7 +30,7 @@ namespace TaxiApp.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<T?> GetItemByIdAsync(long id)
+        public async Task<T?> GetItemByIdAsync(Guid id)
         {
             T? entity = await _dbContext.Set<T>().FindAsync(id);
             if (entity is not null)
