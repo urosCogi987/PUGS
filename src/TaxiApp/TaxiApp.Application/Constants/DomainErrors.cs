@@ -7,5 +7,6 @@
         public const string InvalidCredentials = "Invalid credentials.";
         public const string InvalidRoleName = "That role does not exist";
         public const string InvalidRefreshToken = "Refresh token is not valid";
+        public const string InvalidVerificationToken = "Verification token is not valid";
     }
 }

@@ -9,7 +9,8 @@ namespace TaxiApp.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
-            builder.HasKey(x => new { x.UserId, x.RoleId });
+            builder.HasKey(x => x.Id);
+            builder.HasIndex(x => new {x.UserId, x.RoleId}).IsUnique();            
 
             builder.HasData(Data._userRoles);
         }

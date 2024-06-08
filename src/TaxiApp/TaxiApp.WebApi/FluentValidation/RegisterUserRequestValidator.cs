@@ -10,7 +10,7 @@ namespace TaxiApp.WebApi.FluentValidation
         private const int _maxPasswordLength = 50;
         private readonly string _passwordConstaints
             = $"Must be between {_minPasswordLength} and {_maxPasswordLength} characters.";
-        private static List<string> _roleNames = new() { Kernel.Constants.RoleNames.User, Kernel.Constants.RoleNames.User };
+        private static List<string> _roleNames = new() { Kernel.Constants.RoleNames.User, Kernel.Constants.RoleNames.Driver };
 
         public RegisterUserRequestValidator()
         {
