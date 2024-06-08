@@ -1,4 +1,6 @@
-﻿namespace TaxiApp.Domain.Entities
+﻿using TaxiApp.Domain.DomainEvents;
+
+namespace TaxiApp.Domain.Entities
 {
     public sealed class User : BaseEntity
     {
@@ -26,11 +28,25 @@
         public bool IsEmailVerified { get; private set; }
         public bool IsAdminApproved { get; private set; }
 
-        public ICollection<RefreshToken>? RefreshTokens { get; private set; }                
+        public ICollection<RefreshToken>? RefreshTokens { get; private set; }               
+        public ICollection<VerificationToken>? VerificationTokens { get; private set; }
+
+
+        public void VerifyEmail()
+        {
+            IsEmailVerified = true;
+            RaiseDomainEvent(new UserVerifiedEmailDomainEvent(Guid.NewGuid(), Id));
+        }
+            
+
+        public void AdminApprove()
+            => IsAdminApproved = true;
 
         public static User Create(Guid id, string username, string email, string password, string name, 
-                                          string surname, string address, DateTime dateOfBirth)       
+                                          string surname, string address, DateTime dateOfBirth)
             => new User(id, username, email, password, name, surname, address, dateOfBirth);
+            
+            
 
         public static User CreateAdmin(Guid id, string username, string email, string password, string name,
                                           string surname, string address, DateTime dateOfBirth)

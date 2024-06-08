@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 
@@ -6,7 +7,7 @@ namespace TaxiApp.Persistence.Repositories
 {
     public sealed class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public UserRepository(ApplicationDbContext dbContext, IPublisher publisher) : base(dbContext, publisher)
         {
         }
 
@@ -27,5 +28,8 @@ namespace TaxiApp.Persistence.Repositories
 
             return x;
         }
+
+        public async Task<User?> GetUserByVerificationToken(string token)
+            => await _dbContext.Set<VerificationToken>().Where(x => x.Value == token).Select(x => x.User).FirstOrDefaultAsync();
     }
 }

@@ -54,9 +54,11 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
     services.AddScoped<IUserRoleRepository, UserRoleRepository>();
     services.AddScoped<IRoleRepository, RoleRepository>();
+    services.AddScoped<IVerificationTokenRepository, VerificationTokenRepository>();
 
     services.AddScoped<IPasswordHasher, PasswordHasher>();
     services.AddScoped<IJwtProvider, JwtProvider>();
+    services.AddScoped<IEmailProvider, EmailProvider>();
     services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     services.AddScoped<IUserContext, UserContext>();
 

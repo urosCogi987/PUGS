@@ -25,7 +25,7 @@ namespace TaxiApp.Persistence.SeedData
         {
             User.CreateAdmin(_headAdminId,
                         "admin",
-                        "admin@admin.com",
+                        "admintaxiapp@yopmail.com",
                         "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=",
                         "admin",
                         "admin",
@@ -36,28 +36,34 @@ namespace TaxiApp.Persistence.SeedData
         internal static List<RolePermission> _rolePermissions = new List<RolePermission>()
         {
             // Admin RolePermission seed
-            RolePermission.Create(_roles.First(x => x.Name == RoleNames.Admin).Id,
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
                                   _permissions.First(x => x.Name == PermissionNames.RoleAdmin).Id),
 
-            RolePermission.Create(_roles.First(x => x.Name == RoleNames.Admin).Id,
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
                                   _permissions.First(x => x.Name == PermissionNames.TestPermission).Id),
 
-            RolePermission.Create(_roles.First(x => x.Name == RoleNames.Admin).Id,
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
                                   _permissions.First(x => x.Name == PermissionNames.CanViewAllUsers).Id),
 
             // User RolePermission seed
-            RolePermission.Create(_roles.First(x => x.Name == RoleNames.User).Id,
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.User).Id,
                                   _permissions.First(x => x.Name == PermissionNames.TestPermission).Id),
 
             // Driver RolePermission seed
-            RolePermission.Create(_roles.First(x => x.Name == RoleNames.Driver).Id,
+            RolePermission.Create(Guid.NewGuid(), 
+                                  _roles.First(x => x.Name == RoleNames.Driver).Id,
                                   _permissions.First(x => x.Name == PermissionNames.TestPermission).Id)
         };
 
         internal static List<UserRole> _userRoles = new List<UserRole>()
         {
-            UserRole.Create(_admins.First(x => x.Id == _headAdminId).Id,
-                            _roles.First(x => x.Name == RoleNames.Admin).Id)            
+            UserRole.Create(Guid.NewGuid(),
+                            _admins.First(x => x.Id == _headAdminId).Id,
+                            _roles.First(x => x.Name == RoleNames.Admin).Id)
         };
     }
 }

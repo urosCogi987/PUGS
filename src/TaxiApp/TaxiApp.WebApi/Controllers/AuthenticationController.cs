@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Dtos;
-using TaxiApp.Application.Users.Logout;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models;
@@ -44,5 +43,14 @@ namespace TaxiApp.WebApi.Controllers
             TokensDto tokensDto = await mediator.Send(refreshTokenRequest.MapToRefreshTokenCommand());
             return Ok(new LoginUserResponse(tokensDto));
         }
+
+        [HttpPost("verify")]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequest verifyEmailRequest)
+        {
+            await mediator.Send(verifyEmailRequest.MapToVerifyEmailCommand());
+            return Ok();
+        }
+
+        // TO DO ABSTRACT MODEL FOR TOKENS
     }
 }

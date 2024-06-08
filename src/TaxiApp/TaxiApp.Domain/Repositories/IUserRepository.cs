@@ -8,5 +8,6 @@ namespace TaxiApp.Domain.Repositories
         Task<bool> IsEmailUniqueAsync(string index);
         Task<bool> IsUsernameUniqueAsync(string index);
         Task<User?> GetUserWithRefreshTokens(Guid id);
+        Task<User?> GetUserByVerificationToken(string token);
     }
 }

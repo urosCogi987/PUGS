@@ -11,7 +11,9 @@ namespace TaxiApp.Application.Users.Register
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IUserRoleRepository userRoleRepository,        
-        IPasswordHasher passwordHasher) : IRequestHandler<RegisterUserCommand, Guid>
+        IPasswordHasher passwordHasher,
+        IVerificationTokenRepository verificationTokenRepository,
+        IJwtProvider jwtProvider) : IRequestHandler<RegisterUserCommand, Guid>
     {
         public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -23,8 +25,14 @@ namespace TaxiApp.Application.Users.Register
                                    hashedPassword, request.Name, request.Surname, 
                                    request.Address, request.DateOfBirth);
                       
-            var persistedUser = await userRepository.AddItemAsync(user);
-            await userRoleRepository.AddItemAsync(UserRole.Create(persistedUser.Id, role.Id));
+            var persistedUser = await userRepository.AddItemAsync(user);            
+            await userRoleRepository.AddItemAsync(UserRole.Create(Guid.NewGuid(), persistedUser.Id, role.Id));
+
+            await verificationTokenRepository.AddItemAsync(
+                VerificationToken.Create(Guid.NewGuid(), 
+                                         persistedUser.Id, 
+                                         jwtProvider.GenerateEmptyToken(), 
+                                         DateTime.UtcNow.AddHours(1)));
 
             return persistedUser.Id;
         }

@@ -6,5 +6,6 @@
         internal const string RefreshTokens = nameof(RefreshTokens);
         internal const string Roles = nameof(Roles);
         internal const string Permissions = nameof(Permissions);
+        internal const string VerificationTokens = nameof(VerificationTokens);
     }
 }
