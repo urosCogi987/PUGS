@@ -1,4 +1,4 @@
-﻿using TaxiApp.Application.Users.VerifyEmail;
+﻿using TaxiApp.Application.Users.Commands.VerifyEmail;
 
 namespace TaxiApp.WebApi.Models
 {

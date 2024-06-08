@@ -6,7 +6,7 @@ using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Kernel.Exeptions;
 
-namespace TaxiApp.Application.Users.Login
+namespace TaxiApp.Application.Users.Commands.Login
 {
     internal sealed class LoginUserCommandHandler(
         IUserRepository userRepository,
@@ -20,11 +20,11 @@ namespace TaxiApp.Application.Users.Login
             if (user is null)
                 throw new InvalidRequestException(DomainErrors.InvalidCredentials);
 
-            bool verified =  passwordHasher.VerifyPassword(user.Password, request.Password);
+            bool verified = passwordHasher.VerifyPassword(user.Password, request.Password);
             if (!verified)
                 throw new InvalidRequestException(DomainErrors.InvalidCredentials);
 
-            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user), jwtProvider.GenerateEmptyToken());            
+            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user), jwtProvider.GenerateEmptyToken());
             await refreshTokenRepository.AddItemAsync(RefreshToken.Create(Guid.NewGuid(), user.Id, tokensDto.RefreshToken));
 
             return tokensDto;

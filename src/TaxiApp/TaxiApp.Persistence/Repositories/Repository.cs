@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
 using TaxiApp.Domain.DomainEvents;
 using TaxiApp.Domain.Entities;
@@ -50,8 +51,8 @@ namespace TaxiApp.Persistence.Repositories
             => await _dbContext.Set<T>().AsNoTracking().ToListAsync();
 
         public async Task UpdateItemAsync(T entity)
-        {
-            _dbContext.Set<T>().Attach(entity);
+        {            
+            _dbContext.Set<T>().Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             await PublishEvents(entity);
         }

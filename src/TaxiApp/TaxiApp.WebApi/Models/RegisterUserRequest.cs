@@ -1,4 +1,4 @@
-﻿using TaxiApp.Application.Users.Register;
+﻿using TaxiApp.Application.Users.Commands.Register;
 
 namespace TaxiApp.WebApi.Models
 {
@@ -12,7 +12,7 @@ namespace TaxiApp.WebApi.Models
         public string Surname { get; set; }                
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string RoleName { get; set; } = Kernel.Constants.RoleNames.User;
+        public string RoleName { get; set; } 
 
 
         public RegisterUserCommand MapToRegisterUserCommand()
