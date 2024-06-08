@@ -12,8 +12,8 @@ using TaxiApp.Persistence;
 namespace TaxiApp.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240608123327_VerificationTokens")]
-    partial class VerificationTokens
+    [Migration("20240608165431_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,17 +42,17 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("58238749-8a6f-4a6f-b668-f530d85d78e9"),
+                            Id = new Guid("6683ce4a-b741-4940-80d3-ca8dbe7a03e7"),
                             Name = "CanViewAllUsers"
                         },
                         new
                         {
-                            Id = new Guid("97ed1ace-4e75-4aa0-a265-2ad03bb7eead"),
+                            Id = new Guid("1f1e443a-b6fe-45d5-97b6-1a11d639c6cd"),
                             Name = "RoleAdmin"
                         },
                         new
                         {
-                            Id = new Guid("38310945-9ff8-441a-83e0-ddd43d9ae876"),
+                            Id = new Guid("709e6173-2ede-499a-8a21-6c00d973536a"),
                             Name = "TestPermission"
                         });
                 });
@@ -100,17 +100,17 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("98dcd037-c73d-4046-95dc-a423c02cf2de"),
+                            Id = new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("29647412-68af-417a-bddd-c102c6fbf476"),
+                            Id = new Guid("a29176fb-d94c-4ec3-823a-eead14532caf"),
                             Name = "User"
                         },
                         new
                         {
-                            Id = new Guid("7fba78ba-e33b-418d-9503-b93f887b315a"),
+                            Id = new Guid("53b724b5-da25-4823-8910-41bc70e8d795"),
                             Name = "Driver"
                         });
                 });
@@ -139,33 +139,33 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("79853258-488a-41ec-8a00-74722b8f50a9"),
-                            PermissionId = new Guid("97ed1ace-4e75-4aa0-a265-2ad03bb7eead"),
-                            RoleId = new Guid("98dcd037-c73d-4046-95dc-a423c02cf2de")
+                            Id = new Guid("5ec1ceea-a672-494b-88ed-c0b8093a6b29"),
+                            PermissionId = new Guid("1f1e443a-b6fe-45d5-97b6-1a11d639c6cd"),
+                            RoleId = new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3")
                         },
                         new
                         {
-                            Id = new Guid("32090c89-ffac-4551-96c8-aea8fd7b1ffb"),
-                            PermissionId = new Guid("38310945-9ff8-441a-83e0-ddd43d9ae876"),
-                            RoleId = new Guid("98dcd037-c73d-4046-95dc-a423c02cf2de")
+                            Id = new Guid("1d0b98b1-c161-4352-a4ac-4325f2bd941a"),
+                            PermissionId = new Guid("709e6173-2ede-499a-8a21-6c00d973536a"),
+                            RoleId = new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3")
                         },
                         new
                         {
-                            Id = new Guid("a851c7d6-ea7f-4e78-8fac-80bf0d8f68ed"),
-                            PermissionId = new Guid("58238749-8a6f-4a6f-b668-f530d85d78e9"),
-                            RoleId = new Guid("98dcd037-c73d-4046-95dc-a423c02cf2de")
+                            Id = new Guid("6e83c0a6-fe88-45f1-b5f8-2ad09bbc093e"),
+                            PermissionId = new Guid("6683ce4a-b741-4940-80d3-ca8dbe7a03e7"),
+                            RoleId = new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3")
                         },
                         new
                         {
-                            Id = new Guid("9e572743-706b-459b-80bb-ef139716d8ac"),
-                            PermissionId = new Guid("38310945-9ff8-441a-83e0-ddd43d9ae876"),
-                            RoleId = new Guid("29647412-68af-417a-bddd-c102c6fbf476")
+                            Id = new Guid("416a4eb1-106b-4721-8d6e-0f4f8116bdfc"),
+                            PermissionId = new Guid("709e6173-2ede-499a-8a21-6c00d973536a"),
+                            RoleId = new Guid("a29176fb-d94c-4ec3-823a-eead14532caf")
                         },
                         new
                         {
-                            Id = new Guid("5cbe0d81-9dcb-42db-a46d-857d8d655346"),
-                            PermissionId = new Guid("38310945-9ff8-441a-83e0-ddd43d9ae876"),
-                            RoleId = new Guid("7fba78ba-e33b-418d-9503-b93f887b315a")
+                            Id = new Guid("139b7970-17fe-4c5f-82c7-819952ff3d3a"),
+                            PermissionId = new Guid("709e6173-2ede-499a-8a21-6c00d973536a"),
+                            RoleId = new Guid("53b724b5-da25-4823-8910-41bc70e8d795")
                         });
                 });
 
@@ -186,9 +186,6 @@ namespace TaxiApp.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsAdminApproved")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("boolean");
 
@@ -203,6 +200,9 @@ namespace TaxiApp.Persistence.Migrations
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("UserStatus")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -221,15 +221,15 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c6899967-8c86-4fae-8404-5c07420a8d88"),
+                            Id = new Guid("10cc13f3-6c29-4ee0-852b-9f10be465596"),
                             Address = "address",
                             DateOfBirth = new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc),
-                            Email = "admin@admin.com",
-                            IsAdminApproved = true,
+                            Email = "admintaxiapp@yopmail.com",
                             IsEmailVerified = true,
                             Name = "admin",
                             Password = "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=",
                             Surname = "admin",
+                            UserStatus = 1,
                             Username = "admin"
                         });
                 });
@@ -258,9 +258,9 @@ namespace TaxiApp.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11f9327b-edd1-46db-85ae-f2886b4c9149"),
-                            RoleId = new Guid("98dcd037-c73d-4046-95dc-a423c02cf2de"),
-                            UserId = new Guid("c6899967-8c86-4fae-8404-5c07420a8d88")
+                            Id = new Guid("70ee1e34-4077-4994-b2b4-ccf08c377124"),
+                            RoleId = new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3"),
+                            UserId = new Guid("10cc13f3-6c29-4ee0-852b-9f10be465596")
                         });
                 });
 
@@ -330,11 +330,13 @@ namespace TaxiApp.Persistence.Migrations
 
             modelBuilder.Entity("TaxiApp.Domain.Entities.VerificationToken", b =>
                 {
-                    b.HasOne("TaxiApp.Domain.Entities.User", null)
+                    b.HasOne("TaxiApp.Domain.Entities.User", "User")
                         .WithMany("VerificationTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaxiApp.Domain.Entities.User", b =>

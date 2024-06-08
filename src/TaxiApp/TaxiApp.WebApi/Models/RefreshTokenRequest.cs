@@ -1,4 +1,4 @@
-﻿using TaxiApp.Application.Users.Refresh;
+﻿using TaxiApp.Application.Users.Commands.Refresh;
 
 namespace TaxiApp.WebApi.Models
 {

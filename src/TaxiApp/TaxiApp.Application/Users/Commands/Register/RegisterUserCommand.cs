@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TaxiApp.Application.Users.Register
+namespace TaxiApp.Application.Users.Commands.Register
 {
     public sealed record RegisterUserCommand(string Username,
                                              string Email,

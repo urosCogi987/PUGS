@@ -1,4 +1,5 @@
 ﻿using TaxiApp.Domain.Entities;
+using TaxiApp.Domain.Entities.Enum;
 using TaxiApp.Kernel.Constants;
 
 namespace TaxiApp.Persistence.SeedData
@@ -30,7 +31,8 @@ namespace TaxiApp.Persistence.SeedData
                         "admin",
                         "admin",
                         "address",
-                        new DateTime(1997, 1, 19, 0, 40, 0).ToUniversalTime())
+                        new DateTime(1997, 1, 19, 0, 40, 0).ToUniversalTime(),
+                        UserStatus.Active)
         };
 
         internal static List<RolePermission> _rolePermissions = new List<RolePermission>()

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaxiApp.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitlBaseEntity : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,8 +49,8 @@ namespace TaxiApp.Persistence.Migrations
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsEmailVerified = table.Column<bool>(type: "boolean", nullable: false),
-                    IsAdminApproved = table.Column<bool>(type: "boolean", nullable: false)
+                    UserStatus = table.Column<int>(type: "integer", nullable: false),
+                    IsEmailVerified = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,14 +128,34 @@ namespace TaxiApp.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "VerificationTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    TokenExpiryTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VerificationTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VerificationTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Permissions",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("26305348-2ed8-46e3-b383-797e563867e5"), "CanViewAllUsers" },
-                    { new Guid("eaab42eb-83d0-42c8-9c00-ab22545b5486"), "TestPermission" },
-                    { new Guid("f2f170d7-1f4b-4260-9842-c7413a2af712"), "RoleAdmin" }
+                    { new Guid("1f1e443a-b6fe-45d5-97b6-1a11d639c6cd"), "RoleAdmin" },
+                    { new Guid("6683ce4a-b741-4940-80d3-ca8dbe7a03e7"), "CanViewAllUsers" },
+                    { new Guid("709e6173-2ede-499a-8a21-6c00d973536a"), "TestPermission" }
                 });
 
             migrationBuilder.InsertData(
@@ -143,32 +163,32 @@ namespace TaxiApp.Persistence.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("16f6db69-ba8e-4e6d-b4cf-c11fdd5bf6c6"), "Admin" },
-                    { new Guid("4085460e-9191-4791-af80-bfbc78ceb429"), "Driver" },
-                    { new Guid("cf1f3d92-61db-4fe4-a53c-9247379a6a16"), "User" }
+                    { new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3"), "Admin" },
+                    { new Guid("53b724b5-da25-4823-8910-41bc70e8d795"), "Driver" },
+                    { new Guid("a29176fb-d94c-4ec3-823a-eead14532caf"), "User" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "DateOfBirth", "Email", "IsAdminApproved", "IsEmailVerified", "Name", "Password", "Surname", "Username" },
-                values: new object[] { new Guid("391139b0-150b-48a8-992c-fd3d3db2f4b2"), "address", new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc), "admin@admin.com", true, true, "admin", "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=", "admin", "admin" });
+                columns: new[] { "Id", "Address", "DateOfBirth", "Email", "IsEmailVerified", "Name", "Password", "Surname", "UserStatus", "Username" },
+                values: new object[] { new Guid("10cc13f3-6c29-4ee0-852b-9f10be465596"), "address", new DateTime(1997, 1, 18, 23, 40, 0, 0, DateTimeKind.Utc), "admintaxiapp@yopmail.com", true, "admin", "w18sTtz2B0L0xtlle9xi3A==;7C7r8AaAq4VGSTzu1yE0b/WJh4PcVwlgnPxKZk6y5Ko=", "admin", 1, "admin" });
 
             migrationBuilder.InsertData(
                 table: "RolePermission",
                 columns: new[] { "Id", "PermissionId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("3e38445e-f2bd-4401-87bc-965be021986a"), new Guid("eaab42eb-83d0-42c8-9c00-ab22545b5486"), new Guid("16f6db69-ba8e-4e6d-b4cf-c11fdd5bf6c6") },
-                    { new Guid("82462bf1-1e4c-4411-b2be-d54f1bc189ff"), new Guid("26305348-2ed8-46e3-b383-797e563867e5"), new Guid("16f6db69-ba8e-4e6d-b4cf-c11fdd5bf6c6") },
-                    { new Guid("aba0cf99-774f-43b4-9e96-962300efe1eb"), new Guid("eaab42eb-83d0-42c8-9c00-ab22545b5486"), new Guid("4085460e-9191-4791-af80-bfbc78ceb429") },
-                    { new Guid("abf957eb-6a90-4d86-8079-c0cd706b585b"), new Guid("eaab42eb-83d0-42c8-9c00-ab22545b5486"), new Guid("cf1f3d92-61db-4fe4-a53c-9247379a6a16") },
-                    { new Guid("d32e16c9-d602-4566-96ee-75ba1982515c"), new Guid("f2f170d7-1f4b-4260-9842-c7413a2af712"), new Guid("16f6db69-ba8e-4e6d-b4cf-c11fdd5bf6c6") }
+                    { new Guid("139b7970-17fe-4c5f-82c7-819952ff3d3a"), new Guid("709e6173-2ede-499a-8a21-6c00d973536a"), new Guid("53b724b5-da25-4823-8910-41bc70e8d795") },
+                    { new Guid("1d0b98b1-c161-4352-a4ac-4325f2bd941a"), new Guid("709e6173-2ede-499a-8a21-6c00d973536a"), new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3") },
+                    { new Guid("416a4eb1-106b-4721-8d6e-0f4f8116bdfc"), new Guid("709e6173-2ede-499a-8a21-6c00d973536a"), new Guid("a29176fb-d94c-4ec3-823a-eead14532caf") },
+                    { new Guid("5ec1ceea-a672-494b-88ed-c0b8093a6b29"), new Guid("1f1e443a-b6fe-45d5-97b6-1a11d639c6cd"), new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3") },
+                    { new Guid("6e83c0a6-fe88-45f1-b5f8-2ad09bbc093e"), new Guid("6683ce4a-b741-4940-80d3-ca8dbe7a03e7"), new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3") }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "Id", "RoleId", "UserId" },
-                values: new object[] { new Guid("152b4ff9-e634-494e-977d-e9c74cf87036"), new Guid("16f6db69-ba8e-4e6d-b4cf-c11fdd5bf6c6"), new Guid("391139b0-150b-48a8-992c-fd3d3db2f4b2") });
+                values: new object[] { new Guid("70ee1e34-4077-4994-b2b4-ccf08c377124"), new Guid("2617a0f7-11f3-4e2b-a139-b63fc8372bd3"), new Guid("10cc13f3-6c29-4ee0-852b-9f10be465596") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
@@ -208,6 +228,11 @@ namespace TaxiApp.Persistence.Migrations
                 table: "Users",
                 column: "Username",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VerificationTokens_UserId",
+                table: "VerificationTokens",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -221,6 +246,9 @@ namespace TaxiApp.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRole");
+
+            migrationBuilder.DropTable(
+                name: "VerificationTokens");
 
             migrationBuilder.DropTable(
                 name: "Permissions");

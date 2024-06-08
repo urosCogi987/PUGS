@@ -50,7 +50,7 @@ namespace TaxiApp.WebApi.Controllers
             await mediator.Send(verifyEmailRequest.MapToVerifyEmailCommand());
             return Ok();
         }
-
+        
         // TO DO ABSTRACT MODEL FOR TOKENS
     }
 }

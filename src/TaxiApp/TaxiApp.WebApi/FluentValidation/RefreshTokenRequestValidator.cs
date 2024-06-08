@@ -5,7 +5,7 @@ using TaxiApp.WebApi.Models;
 namespace TaxiApp.WebApi.FluentValidation
 {
     public sealed class RefreshTokenRequestValidator : AbstractValidator<RefreshTokenRequest>
-    {
+    {        
         public RefreshTokenRequestValidator()
         {
             RuleFor(x => x.RefreshToken)

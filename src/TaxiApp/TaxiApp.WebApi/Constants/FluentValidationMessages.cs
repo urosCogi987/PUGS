@@ -18,5 +18,10 @@
         public const string ValidRoleNames = "Please only use: ";
 
         public const string RefreshTokenIsRequired = "Refresh token is a required field.";
+
+        public const string VerificationTokenIsRequired = "Verification token is a required field.";
+
+        public const string UserStatusIsRequired = "User status is a required field.";
+        public const string ValidUserStatuses = "Please only use: ";
     }
 }

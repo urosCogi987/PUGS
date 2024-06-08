@@ -30,6 +30,6 @@ namespace TaxiApp.Persistence.Repositories
         }
 
         public async Task<User?> GetUserByVerificationToken(string token)
-            => await _dbContext.Set<VerificationToken>().Where(x => x.Value == token).Select(x => x.User).FirstOrDefaultAsync();
+            => await _dbContext.Set<VerificationToken>().Where(x => x.Value == token).Select(x => x.User).FirstOrDefaultAsync();        
     }
 }
