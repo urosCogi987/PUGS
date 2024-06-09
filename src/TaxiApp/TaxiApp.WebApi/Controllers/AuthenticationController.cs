@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Dtos;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
-using TaxiApp.WebApi.Models;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿namespace TaxiApp.WebApi.Constants
 {
-    public sealed class FluentValidationMessages
+    public static class FluentValidationMessages
     {
         public const string EmailIsRequired = "Email is a required field.";
         public const string EmailFormatIncorrect = "Email format is invalid.";
@@ -23,5 +23,10 @@
 
         public const string UserStatusIsRequired = "User status is a required field.";
         public const string ValidUserStatuses = "Please only use: ";
+
+        public const string OldPasswordIsRequired = "Old password is a required field.";
+
+        public static readonly string PasswordConstaints
+            = $"Must be between {StringLengths.MinPasswordLength} and {StringLengths.MaxPasswordLength} characters.";
     }
 }

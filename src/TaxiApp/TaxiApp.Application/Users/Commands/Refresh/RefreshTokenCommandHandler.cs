@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Constants;
 using TaxiApp.Application.Dtos;
@@ -12,7 +13,8 @@ namespace TaxiApp.Application.Users.Commands.Refresh
         IRefreshTokenRepository refreshTokenRepository,
         IUserContext userContext,
         IJwtProvider jwtProvider,
-        IUserRepository userRepository) : IRequestHandler<RefreshTokenCommand, TokensDto>
+        IUserRepository userRepository,
+        IConfiguration configuration) : IRequestHandler<RefreshTokenCommand, TokensDto>
     {
         public async Task<TokensDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
@@ -31,6 +33,10 @@ namespace TaxiApp.Application.Users.Commands.Refresh
             {
                 await refreshTokenRepository.DeleteItemsRangeAsync(user!.RefreshTokens!);
             }
+            else if (refreshToken.TokenExpiryTime < DateTime.UtcNow)
+            {
+                throw new InvalidRequestException(DomainErrors.RefreshTokenExpired);
+            }
             else
             {
                 refreshToken.UseToken();
@@ -38,7 +44,11 @@ namespace TaxiApp.Application.Users.Commands.Refresh
             }
 
             var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken());
-            await refreshTokenRepository.AddItemAsync(RefreshToken.Create(Guid.NewGuid(), user!.Id, tokensDto.RefreshToken));
+            await refreshTokenRepository.AddItemAsync(RefreshToken.Create(
+                Guid.NewGuid(), 
+                user!.Id, 
+                tokensDto.RefreshToken,
+                DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:VerificationTokenExpiryTimeInMinutes"]!))));
 
             return tokensDto;
         }

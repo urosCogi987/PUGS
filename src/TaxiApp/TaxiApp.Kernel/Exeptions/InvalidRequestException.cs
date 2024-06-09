@@ -1,6 +1,6 @@
 ﻿namespace TaxiApp.Kernel.Exeptions
 {
-    public class InvalidRequestException : Exception
+    public sealed class InvalidRequestException : Exception
     {
         public InvalidRequestException() : base()
         {

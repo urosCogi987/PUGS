@@ -1,58 +1,34 @@
 ﻿using FluentValidation;
 using TaxiApp.WebApi.Constants;
-using TaxiApp.WebApi.Models;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.FluentValidation
 {
     public sealed class RegisterUserRequestValidator : AbstractValidator<RegisterUserRequest>
-    {
-        private const int _minPasswordLength = 8;
-        private const int _maxPasswordLength = 50;
-        private readonly string _passwordConstaints
-            = $"Must be between {_minPasswordLength} and {_maxPasswordLength} characters.";
+    {        
         private static List<string> _roleNames = new() { Kernel.Constants.RoleNames.User, Kernel.Constants.RoleNames.Driver };
 
         public RegisterUserRequestValidator()
         {
-            RuleFor(x => x.Username)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.UsernameIsRequired);
+            Include(new UserRequestValidator());           
 
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .WithMessage(FluentValidationMessages.EmailIsRequired)
                 .EmailAddress()
-                .WithMessage(FluentValidationMessages.EmailFormatIncorrect);
-
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.NameIsRequired);
-
-            RuleFor(x => x.Surname)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.SurnameIsRequired);
+                .WithMessage(FluentValidationMessages.EmailFormatIncorrect);                        
 
             RuleFor(x => x.Password)
                 .NotEmpty()
                 .WithMessage(FluentValidationMessages.PasswordIsRequired)                
-                .Length(_minPasswordLength, _maxPasswordLength)
-                .WithMessage(FluentValidationMessages.PasswordLengthInvalid + _passwordConstaints);
+                .Length(StringLengths.MinPasswordLength, StringLengths.MaxPasswordLength)
+                .WithMessage(FluentValidationMessages.PasswordLengthInvalid + FluentValidationMessages.PasswordConstaints);
 
             RuleFor(x => x.RepeatPassword)
                 .NotEmpty()
                 .WithMessage(FluentValidationMessages.RepeatPasswordIsRequired)
                 .Equal(x => x.Password)
-                .WithMessage(FluentValidationMessages.PasswordsDoNotMatch);
-            
-            RuleFor(x => x.DateOfBirth)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.DateOfBirthIsRequired)
-                .LessThan(x => DateTime.Now)
-                .WithMessage(FluentValidationMessages.DateOfBirthInvalid);
-
-            RuleFor(x => x.Address)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.AddressIsRequired);
+                .WithMessage(FluentValidationMessages.PasswordsDoNotMatch);                        
 
             RuleFor(x => x.RoleName)
                 .NotEmpty()

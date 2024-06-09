@@ -2,11 +2,11 @@
 {
     public class RefreshToken : BaseEntity
     {
-        private RefreshToken(Guid id, Guid userId, string value) : base(id)
+        private RefreshToken(Guid id, Guid userId, string value, DateTime tokenExpiryTime) : base(id)
         {
             UserId = userId;
             Value = value;
-            TokenExpiryTime = DateTime.UtcNow;
+            TokenExpiryTime = tokenExpiryTime;
             IsUsed = false;
         }
 
@@ -21,7 +21,7 @@
         public void UseToken()
             => IsUsed = true;
 
-        public static RefreshToken Create(Guid id, Guid userId,  string value)
-            => new RefreshToken(id, userId,  value);
+        public static RefreshToken Create(Guid id, Guid userId,  string value, DateTime tokenExpiryTime)
+            => new RefreshToken(id, userId,  value, tokenExpiryTime);
     }
 }

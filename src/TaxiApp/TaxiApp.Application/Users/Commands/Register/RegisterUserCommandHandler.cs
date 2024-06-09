@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Constants;
 using TaxiApp.Domain.Entities;
@@ -14,7 +15,8 @@ namespace TaxiApp.Application.Users.Commands.Register
         IUserRoleRepository userRoleRepository,
         IPasswordHasher passwordHasher,
         IVerificationTokenRepository verificationTokenRepository,
-        IJwtProvider jwtProvider) : IRequestHandler<RegisterUserCommand, Guid>
+        IJwtProvider jwtProvider,
+        IConfiguration configuration) : IRequestHandler<RegisterUserCommand, Guid>
     {
         public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -30,10 +32,11 @@ namespace TaxiApp.Application.Users.Commands.Register
             await userRoleRepository.AddItemAsync(UserRole.Create(Guid.NewGuid(), persistedUser.Id, role.Id));
 
             await verificationTokenRepository.AddItemAsync(
-                VerificationToken.Create(Guid.NewGuid(),
-                                         persistedUser.Id,
-                                         jwtProvider.GenerateEmptyToken(),
-                                         DateTime.UtcNow.AddHours(1)));
+                VerificationToken.Create(
+                    Guid.NewGuid(),
+                    persistedUser.Id,
+                    jwtProvider.GenerateEmptyToken(),
+                    DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:RefreshTokenExpiryTimeInMinutes"]!))));
 
             return persistedUser.Id;
         }

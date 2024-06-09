@@ -1,6 +1,6 @@
 ﻿using TaxiApp.Application.Dtos;
 
-namespace TaxiApp.WebApi.Models
+namespace TaxiApp.WebApi.Models.User
 {
     public sealed class UserProfileResponse
     {
@@ -10,7 +10,7 @@ namespace TaxiApp.WebApi.Models
         public string Surname { get; set; }
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public List<string> RoleNames { get; set; } 
+        public List<string> RoleNames { get; set; }
         public string Status { get; set; }
 
         public UserProfileResponse(UserProfileDto userProfile)

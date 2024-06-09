@@ -15,7 +15,7 @@ namespace TaxiApp.Persistence.Repositories
             => !(await _dbContext.Set<User>().AnyAsync(user => user.Email == email));
 
         public async Task<bool> IsUsernameUniqueAsync(string username)
-            => !(await _dbContext.Set<User>().AnyAsync(user => user.Username == username));
+            => !(await _dbContext.Set<User>().AnyAsync(user => user.Username == username));               
 
         public async Task<User?> GetUserWithRefreshTokens(Guid id)
         {

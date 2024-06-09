@@ -27,7 +27,14 @@ namespace TaxiApp.WebApi.Middlewares
                         Status = (int)HttpStatusCode.BadRequest,
                         Detail = invalidRequestException.Message,
                     };
-                    break;                                    
+                    break;    
+                case ForbiddenOperationException forbiddenOperationException:
+                    result = new ProblemDetails
+                    {
+                        Status = (int)HttpStatusCode.Forbidden,
+                        Detail = forbiddenOperationException.Message,
+                    };
+                    break;
                 default:
                     result = new ProblemDetails
                     {

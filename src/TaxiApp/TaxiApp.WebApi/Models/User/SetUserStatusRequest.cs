@@ -1,7 +1,7 @@
 ﻿using TaxiApp.Application.Users.Commands.SetStatus;
 using TaxiApp.Domain.Entities.Enum;
 
-namespace TaxiApp.WebApi.Models
+namespace TaxiApp.WebApi.Models.User
 {
     public class SetUserStatusRequest
     {

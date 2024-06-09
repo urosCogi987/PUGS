@@ -9,5 +9,13 @@
         public const string InvalidRefreshToken = "Refresh token is not valid.";
         public const string InvalidVerificationToken = "Verification token is not valid.";
         public const string UserDoesNotExist = "User does not exist.";
+        public const string IncorrectPassowrd = "Password is incorrect.";
+        public const string RefreshTokenExpired = "Refresh token has expired.";
+
+        public const string ForbiddenOperation = "This operation is forbidden.";
+
+        public const string UserEmailIsNotVerified = "Users email has not been verified yet.";
+
+
     }
 }
