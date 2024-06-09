@@ -61,6 +61,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped<IEmailProvider, EmailProvider>();
     services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     services.AddScoped<IUserContext, UserContext>();
+    services.AddScoped<IDriveCalculator, DriveCalculator>();
 
     services.AddHostedService<RefreshTokenDeletingService>();
     services.AddHostedService<VerificationTokenDeletingService>();

@@ -22,7 +22,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [HasPermission(PermissionNames.TestPermission)]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<ActionResult<UserProfileResponse>> Get(Guid id)
         {
             var user = await mediator.Send(new GetUserQuery(id));
@@ -30,7 +30,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [HasPermission(PermissionNames.TestPermission)]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<IActionResult> Update(Guid id, UpdateUserProfileRequest updateUserProfileRequest)
         {
             await mediator.Send(updateUserProfileRequest.MapToUpdateUesrProfileCommand(id));
@@ -38,7 +38,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpPut("{id}/password")]
-        [HasPermission(PermissionNames.TestPermission)]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<IActionResult> ChangePassword(Guid id, [FromBody] ChangePasswordRequest changePasswordRequest)
         {
             await mediator.Send(changePasswordRequest.MapToChangePasswordCommand(id));
