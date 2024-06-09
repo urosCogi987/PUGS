@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using TaxiApp.Domain.Entities.Enum;
 using TaxiApp.WebApi.Constants;
-using TaxiApp.WebApi.Models;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.FluentValidation
 {

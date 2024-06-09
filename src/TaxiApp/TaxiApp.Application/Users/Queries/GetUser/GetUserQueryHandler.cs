@@ -13,6 +13,7 @@ namespace TaxiApp.Application.Users.Queries.GetUser
     {
         public async Task<UserProfileDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
+            // razmisli za get da zabranis get drugog user-a u slucaju da nije admin, ili to sa fronta?
             User? user = await userRepository.GetItemByIdAsync(request.id);
             if (user is null)
                 throw new InvalidRequestException(DomainErrors.UserDoesNotExist);

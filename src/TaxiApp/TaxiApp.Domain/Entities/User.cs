@@ -42,6 +42,17 @@ namespace TaxiApp.Domain.Entities
         public void SetStatus(UserStatus userStatus)
             => UserStatus = userStatus;
 
+        public void UpdateProfile(string username, string name, string surname, string address, DateTime dateOfBirth)
+        {
+            Username = username;
+            Name = name;
+            Surname = surname;            
+            Address = address;
+            DateOfBirth = dateOfBirth;
+        }
+
+        public void ChangePassword(string newPassword)
+            => Password = newPassword;
        
         public static User Create(Guid id, string username, string email, string password, string name, 
                                           string surname, string address, DateTime dateOfBirth, UserStatus userStatus)

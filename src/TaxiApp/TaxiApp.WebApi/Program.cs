@@ -63,6 +63,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped<IUserContext, UserContext>();
 
     services.AddHostedService<RefreshTokenDeletingService>();
+    services.AddHostedService<VerificationTokenDeletingService>();
 }
 
 void ConfigureApp(WebApplication app)

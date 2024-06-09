@@ -1,6 +1,6 @@
 ﻿using TaxiApp.Application.Users.Commands.Logout;
 
-namespace TaxiApp.WebApi.Models
+namespace TaxiApp.WebApi.Models.User
 {
     public sealed class LogoutUserRequeset
     {

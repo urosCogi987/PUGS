@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using TaxiApp.WebApi.Constants;
-using TaxiApp.WebApi.Models;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.FluentValidation
 {

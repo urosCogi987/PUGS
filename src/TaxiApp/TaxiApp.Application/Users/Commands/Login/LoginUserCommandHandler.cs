@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Constants;
 using TaxiApp.Application.Dtos;
@@ -12,7 +13,8 @@ namespace TaxiApp.Application.Users.Commands.Login
         IUserRepository userRepository,
         IPasswordHasher passwordHasher,
         IJwtProvider jwtProvider,
-        IRefreshTokenRepository refreshTokenRepository) : IRequestHandler<LoginUserCommand, TokensDto>
+        IRefreshTokenRepository refreshTokenRepository,
+        IConfiguration configuration) : IRequestHandler<LoginUserCommand, TokensDto>
     {
         public async Task<TokensDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
@@ -25,7 +27,11 @@ namespace TaxiApp.Application.Users.Commands.Login
                 throw new InvalidRequestException(DomainErrors.InvalidCredentials);
 
             var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user), jwtProvider.GenerateEmptyToken());
-            await refreshTokenRepository.AddItemAsync(RefreshToken.Create(Guid.NewGuid(), user.Id, tokensDto.RefreshToken));
+            await refreshTokenRepository.AddItemAsync(RefreshToken.Create(
+                Guid.NewGuid(),
+                user.Id, 
+                tokensDto.RefreshToken,
+                DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:RefreshTokenExpiryTimeInMinutes"]!))));
 
             return tokensDto;
         }
