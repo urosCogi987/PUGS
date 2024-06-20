@@ -1,35 +1,46 @@
-﻿using TaxiApp.Domain.Entities.Enum;
+﻿using TaxiApp.Domain.DomainEvents;
+using TaxiApp.Domain.Entities.Enum;
 
 namespace TaxiApp.Domain.Entities
 {
     public sealed class Drive : BaseEntity
     {
-        private Drive(Guid id, string fromAddress, double fromLatitude, double fromLongitude,
-                      string toAddress, double toLatitude, double toLongitude, DriveStatus status) : base(id)
-        {
+        private Drive(Guid id, Guid userId, string fromAddress, string toAddress, 
+                      DriveStatus status, int distance, int driveTime, double price) : base(id)
+        {            
+            UserId = userId;
             FromAddress = fromAddress;
-            FromLatitude = fromLatitude;
-            FromLongitude = fromLongitude;
             ToAddress = toAddress;
-            ToLatitude = toLatitude;
-            ToLongitude = toLongitude;
+            Distance = distance;
+            DriveTime = driveTime;
+            Price = price;
             Status = status;
+            CreatedOn = DateTime.UtcNow;
         }
 
-        public Guid? UserId { get; private set; }
+        public Guid UserId { get; private set; }
+        public User User { get; set; }
         public Guid? DriverId { get; private set; }
-        public string FromAddress { get; private set; }
-        public double FromLatitude { get; private set; }
-        public double FromLongitude { get; private set; }
-        public string ToAddress { get; private set; }
-        public double ToLatitude { get; private set; }
-        public double ToLongitude { get; private set; }
+        public User? Driver { get; set; }
+        public string FromAddress { get; private set; }        
+        public string ToAddress { get; private set; }        
         public int DriveTime { get; private set; }
         public int DriverArrivingTime { get; private set; }
-        public DriveStatus Status { get; set; }
+        public int Distance { get; private set; }
+        public double Price { get; set; }
+        public DriveStatus Status { get; private set; }
+        public DateTime CreatedOn { get; private set; }
 
-        public static Drive Create(Guid id, string fromAddress, double fromLatitude, double fromLongitude,
-                                   string toAddress, double toLatitude, double toLongitude, DriveStatus status)
-            => new Drive(id, fromAddress, fromLatitude, fromLongitude, toAddress, toLatitude, toLongitude, status);
+        public void AcceptDrive(Guid driverId, int driverArrivingTime)
+        {
+            DriverId = driverId;
+            DriverArrivingTime = driverArrivingTime;
+            Status = DriveStatus.DriverConfirmed;            
+            RaiseDomainEvent(new DriveAcceptedDomainEvent(Guid.NewGuid(), UserId, driverId));
+        }            
+
+        public static Drive Create(Guid id, Guid userId, string fromAddress, string toAddress, 
+                                   DriveStatus status, int distance, int driveTime, double price)
+            => new Drive(id, userId, fromAddress, toAddress, status, distance, driveTime, price);
     }
 }

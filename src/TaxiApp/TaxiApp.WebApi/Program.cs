@@ -55,6 +55,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped<IUserRoleRepository, UserRoleRepository>();
     services.AddScoped<IRoleRepository, RoleRepository>();
     services.AddScoped<IVerificationTokenRepository, VerificationTokenRepository>();
+    services.AddScoped<IDriveRepository, DriveRepository>();
 
     services.AddScoped<IPasswordHasher, PasswordHasher>();
     services.AddScoped<IJwtProvider, JwtProvider>();

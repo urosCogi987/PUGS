@@ -9,8 +9,17 @@ namespace TaxiApp.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Drive> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.UserId);
-            builder.HasIndex(x => x.DriverId);
+
+            builder.HasOne(x => x.User)
+                .WithMany(y => y.DrivesPassanger)
+                .HasForeignKey(x => x.UserId);
+
+            builder.HasOne(x => x.Driver)
+                .WithMany(y => y.DrivesDriver)
+                .HasForeignKey(x => x.DriverId);
+
+            //builder.HasIndex(x => x.UserId);
+            //builder.HasIndex(x => x.DriverId);
         }
     }
 }
