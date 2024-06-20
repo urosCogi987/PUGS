@@ -28,5 +28,16 @@
 
         public static readonly string PasswordConstaints
             = $"Must be between {StringLengths.MinPasswordLength} and {StringLengths.MaxPasswordLength} characters.";
+
+        public const string FromAddressIsRequired = "From address is a required field.";
+        public const string ToAddressIsRequired = "To address is a required field.";
+        public const string DriverArrivingTimeIsRequired = "Driver ariving time is a required field.";
+        public const string DriverArrivingTimeGreaterThanZero = "Driver ariving time has to be greater than 0.";
+        public const string FromLatitudeIsRequired = "From latitude is a required field.";
+        public const string FromLongitudeIsRequired = "From longitude is a required field.";
+        public const string ToLatitudeIsRequired = "To latitude is a required field.";
+        public const string ToLongitudeIsRequired = "To longitude is a required field.";
+        public const string ValidLatitudes = "Latitude must be between -80 <-> 80 degress.";
+        public const string ValidLongitudes = "Longitude must be between -180 <-> 180 degress.";
     }
 }

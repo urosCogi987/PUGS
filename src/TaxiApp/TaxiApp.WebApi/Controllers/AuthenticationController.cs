@@ -30,7 +30,7 @@ namespace TaxiApp.WebApi.Controllers
 
         [HttpPost("logout")]
         [Authorize]
-        [HasPermission(PermissionNames.TestPermission)]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<IActionResult> Logout([FromBody] LogoutUserRequeset logoutUserRequeset)
         {
             await mediator.Send(logoutUserRequeset.MapToLogoutUserCommand());

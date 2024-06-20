@@ -17,9 +17,13 @@ namespace TaxiApp.Persistence.SeedData
 
         internal static List<Permission> _permissions = new List<Permission>()
         {
-            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewAllUsers),
             Permission.Create(Guid.NewGuid(), PermissionNames.RoleAdmin),
-            Permission.Create(Guid.NewGuid(), PermissionNames.TestPermission)
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewAllUsers),   
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewAllDrives),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanRequestDrive),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanAcceptDrive),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewHisDrives),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanUpdateProfile)
         };
 
         internal static List<User> _admins = new List<User>()
@@ -40,25 +44,46 @@ namespace TaxiApp.Persistence.SeedData
             // Admin RolePermission seed
             RolePermission.Create(Guid.NewGuid(),
                                   _roles.First(x => x.Name == RoleNames.Admin).Id,
-                                  _permissions.First(x => x.Name == PermissionNames.RoleAdmin).Id),
-
-            RolePermission.Create(Guid.NewGuid(),
-                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
-                                  _permissions.First(x => x.Name == PermissionNames.TestPermission).Id),
+                                  _permissions.First(x => x.Name == PermissionNames.RoleAdmin).Id),            
 
             RolePermission.Create(Guid.NewGuid(),
                                   _roles.First(x => x.Name == RoleNames.Admin).Id,
                                   _permissions.First(x => x.Name == PermissionNames.CanViewAllUsers).Id),
 
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewAllDrives).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanUpdateProfile).Id),
+
+
             // User RolePermission seed
             RolePermission.Create(Guid.NewGuid(),
                                   _roles.First(x => x.Name == RoleNames.User).Id,
-                                  _permissions.First(x => x.Name == PermissionNames.TestPermission).Id),
+                                  _permissions.First(x => x.Name == PermissionNames.CanUpdateProfile).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.User).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanRequestDrive).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.User).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewHisDrives).Id),
 
             // Driver RolePermission seed
             RolePermission.Create(Guid.NewGuid(), 
                                   _roles.First(x => x.Name == RoleNames.Driver).Id,
-                                  _permissions.First(x => x.Name == PermissionNames.TestPermission).Id)
+                                  _permissions.First(x => x.Name == PermissionNames.CanUpdateProfile).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Driver).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanAcceptDrive).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Driver).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewHisDrives).Id)
         };
 
         internal static List<UserRole> _userRoles = new List<UserRole>()

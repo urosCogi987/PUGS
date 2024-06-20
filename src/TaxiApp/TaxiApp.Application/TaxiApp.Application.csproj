@@ -16,4 +16,9 @@
     <ProjectReference Include="..\TaxiApp.Domain\TaxiApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Drive\Events\" />
+    <Folder Include="Drive\Queries\" />
+  </ItemGroup>
+
 </Project>

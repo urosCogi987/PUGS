@@ -31,7 +31,8 @@ namespace TaxiApp.Domain.Entities
 
         public ICollection<RefreshToken>? RefreshTokens { get; private set; }               
         public ICollection<VerificationToken>? VerificationTokens { get; private set; }
-
+        public ICollection<Drive>? DrivesPassanger { get; private set; }
+        public ICollection<Drive>? DrivesDriver { get; private set; }
 
         public void VerifyEmail()
         {
