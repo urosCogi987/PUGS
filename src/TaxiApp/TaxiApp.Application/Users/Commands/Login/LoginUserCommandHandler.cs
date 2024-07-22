@@ -26,7 +26,7 @@ namespace TaxiApp.Application.Users.Commands.Login
             if (!verified)
                 throw new InvalidRequestException(DomainErrors.InvalidCredentials);
 
-            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user), jwtProvider.GenerateEmptyToken());
+            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user), jwtProvider.GenerateEmptyToken(), user.Id);
             await refreshTokenRepository.AddItemAsync(RefreshToken.Create(
                 Guid.NewGuid(),
                 user.Id, 

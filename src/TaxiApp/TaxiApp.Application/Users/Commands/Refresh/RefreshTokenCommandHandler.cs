@@ -43,7 +43,7 @@ namespace TaxiApp.Application.Users.Commands.Refresh
                 await refreshTokenRepository.UpdateItemAsync(refreshToken);
             }
 
-            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken());
+            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken(), user!.Id);
             await refreshTokenRepository.AddItemAsync(RefreshToken.Create(
                 Guid.NewGuid(), 
                 user!.Id, 

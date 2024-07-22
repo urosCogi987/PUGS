@@ -11,7 +11,7 @@ namespace TaxiApp.Infrastructure.Services
     {
         public async Task SendConfirmationEmaiAsync(string email, string token)
         {
-            string content = $"OOOOOOO/{token}";
+            string content = $"{configuration["Sendgrid:VerificationReddirectLink"]}";
 
             var client = new SendGridClient(configuration["Sendgrid:ApiKey"]);
             var from_email = new EmailAddress(configuration["Sendgrid:Verifiedsender"]);

@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaxiApp.Application.Drive.Queries.Get;
+using TaxiApp.Application.Drive.Queries.GetDriveDetails;
 using TaxiApp.Application.Dtos;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
@@ -28,5 +30,21 @@ namespace TaxiApp.WebApi.Controllers
             await mediator.Send(acceptDriveRequest.MapToAcceptDriveCommand(id));
             return Ok();
         }        
+
+        [HttpGet]
+        [HasPermission(PermissionNames.CanViewHisDrives)]
+        public async Task<ActionResult<List<GetDrivesResponseListItem>>> Get()
+        {
+            var drives = await mediator.Send(new GetDrivesQuery());
+            return Ok(drives.ConvertAll(x => GetDrivesResponseListItem.Create(x)));
+        }
+
+        [HttpGet("{id}")]
+        [HasPermission(PermissionNames.CanViewHisDrives)]
+        public async Task<ActionResult<DriveDetailsResponse>> GetById(Guid id)
+        {
+            var drive = await mediator.Send(new GetDriveDetailsQuery(id));
+            return Ok(DriveDetailsResponse.Create(drive));
+        }
     }
 }

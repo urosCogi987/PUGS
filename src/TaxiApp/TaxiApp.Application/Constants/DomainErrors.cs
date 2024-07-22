@@ -14,8 +14,6 @@
 
         public const string ForbiddenOperation = "This operation is forbidden.";
 
-        public const string UserEmailIsNotVerified = "Users email has not been verified yet.";
-
-
+        public const string UserEmailIsNotVerified = "Users email has not been verified yet.";        
     }
 }
