@@ -1,8 +1,10 @@
+using Azure.Storage.Blobs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -15,6 +17,7 @@ using TaxiApp.Infrastructure.Services;
 using TaxiApp.Kernel.Repositories;
 using TaxiApp.Persistence;
 using TaxiApp.Persistence.Repositories;
+using TaxiApp.Persistence.Storage;
 using TaxiApp.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +69,9 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddHostedService<RefreshTokenDeletingService>();
     services.AddHostedService<VerificationTokenDeletingService>();
+
+    services.AddSingleton<IBlobService, BlobService>();
+    services.AddSingleton(_ => new BlobServiceClient(builder.Configuration.GetConnectionString("BlobStorage")));
 }
 
 void ConfigureApp(WebApplication app)
@@ -82,6 +88,11 @@ void ConfigureApp(WebApplication app)
     app.UseExceptionHandler(_ => { });
 
     app.UseHttpsRedirection();
+
+    app.UseCors(x => x
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 
     app.UseAuthorization();
 

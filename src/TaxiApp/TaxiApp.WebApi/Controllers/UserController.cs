@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Users.Queries.GetUser;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
@@ -11,7 +12,7 @@ namespace TaxiApp.WebApi.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class UserController(IMediator mediator) : ControllerBase
+    public class UserController(IMediator mediator, IBlobService blobService) : ControllerBase
     {
         [HttpPut("{id}/setStatus")]
         [HasPermission(PermissionNames.RoleAdmin)]
@@ -43,6 +44,16 @@ namespace TaxiApp.WebApi.Controllers
         {
             await mediator.Send(changePasswordRequest.MapToChangePasswordCommand(id));
             return Ok();
+        }
+
+        [HttpPost("blob")]
+        [AllowAnonymous]
+        public async Task<IActionResult> PostImage(IFormFile file)
+        {
+            using Stream stream = file.OpenReadStream();
+            Guid fileId = await blobService.UploadAsync(stream, file.ContentType);
+
+            return Ok(fileId);
         }
     }
 }

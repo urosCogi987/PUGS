@@ -22,7 +22,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUserRequest)
+        public async Task<ActionResult<LoginUserResponse>> Login([FromBody] LoginUserRequest loginUserRequest)
         {
             TokensDto tokensDto = await mediator.Send(loginUserRequest.MapToLoginUserCommand());
             return Ok(new LoginUserResponse(tokensDto));
