@@ -1,4 +1,4 @@
 ﻿namespace TaxiApp.Application.Abstractions
 {
-    public record FileResponse(Stream Stream, string ContentType);
+    public record FileResponse(string Base64, string ContentType);
 }

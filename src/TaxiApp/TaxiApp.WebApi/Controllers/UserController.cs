@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Abstractions;
+using TaxiApp.Application.Users.Commands.UpdateProfilePicture;
+using TaxiApp.Application.Users.Queries.GetProfile;
+using TaxiApp.Application.Users.Queries.GetProfilePicture;
 using TaxiApp.Application.Users.Queries.GetUser;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
@@ -46,14 +49,30 @@ namespace TaxiApp.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("blob")]
+        [HttpPost("image")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         [AllowAnonymous]
         public async Task<IActionResult> PostImage(IFormFile file)
-        {
-            using Stream stream = file.OpenReadStream();
-            Guid fileId = await blobService.UploadAsync(stream, file.ContentType);
+        {            
+            await mediator.Send(new UpdateProfilePictureCommand(file));
+            return Ok();
+        }
 
-            return Ok(fileId);
+        [HttpGet("image")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ProfilePictureResponse>> GetImage()
+        {
+            var file = await mediator.Send(new GetProfilePictureQuery());
+            return Ok(new ProfilePictureResponse(file));
+        }
+
+        [HttpGet("profile")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
+        public async Task<ActionResult<UserProfileResponse>> GetProfile()
+        {
+            var user = await mediator.Send(new GetCurrentUserQuery());            
+            return Ok(new UserProfileResponse(user));
         }
     }
 }

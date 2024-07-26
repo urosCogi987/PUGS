@@ -26,7 +26,7 @@ namespace TaxiApp.Infrastructure.Authentication
             var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
                                              configuration["Jwt:Audience"],
                                              claims,
-                                             expires: DateTime.Now.AddMinutes(30),
+                                             expires: DateTime.Now.AddMinutes(300), // add expiration in .json
                                              signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
