@@ -1,12 +1,13 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 
 namespace TaxiApp.Persistence.Storage
 {
-    public sealed class BlobService(BlobServiceClient blobServiceClient) : IBlobService
+    public sealed class BlobService(BlobServiceClient blobServiceClient, IConfiguration configuration) : IBlobService
     {
-        private const string containerName = "profile-pictures";
+        private readonly string containerName = configuration["Container-name"]!;
 
         public async Task DeleteAsync(Guid fileId, CancellationToken cancellationToken = default)
         {
@@ -22,25 +23,47 @@ namespace TaxiApp.Persistence.Storage
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
             BlobClient blobClient = containerClient.GetBlobClient(fileId.ToString());
+            
+            if (!await blobClient.ExistsAsync())
+            {
+                return null;
+            }
 
             Azure.Response<BlobDownloadResult> response = await blobClient.DownloadContentAsync(cancellationToken: cancellationToken);
 
-            return new FileResponse(response.Value.Content.ToStream(), response.Value.Details.ContentType); // can be null
+            return new FileResponse(ConvertStreamToBase64(response.Value.Content.ToStream()), response.Value.Details.ContentType);
         }
 
-        public async Task<Guid> UploadAsync(Stream stream, string contentType, CancellationToken cancellationToken = default)
+        public async Task<string> UploadAsync(Stream stream, string contentType, Guid userId, CancellationToken cancellationToken = default)
         {
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
-            var fileId = Guid.NewGuid();
-            BlobClient blobClient = containerClient.GetBlobClient(fileId.ToString());
+            string pictureName = userId.ToString();
+            BlobClient blobClient = containerClient.GetBlobClient(pictureName);
 
             await blobClient.UploadAsync(
                 stream,
                 new BlobHttpHeaders { ContentType = contentType }, 
                 cancellationToken: cancellationToken);
 
-            return fileId;
+            return pictureName;
+        }
+
+        private static string ConvertStreamToBase64(Stream stream)
+        {
+            if (stream == null || !stream.CanRead)
+            {
+                throw new ArgumentException("Stream is either null or unreadable.");
+            }
+            
+            byte[] byteArray;
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                byteArray = memoryStream.ToArray();
+            }
+            
+            return Convert.ToBase64String(byteArray);
         }
     }
 }

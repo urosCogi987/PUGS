@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using TaxiApp.Application.Constants;
-using TaxiApp.Application.Dtos;
+using TaxiApp.Application.Users.Dtos;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Kernel.Exeptions;

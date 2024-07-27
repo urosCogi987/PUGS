@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Abstractions;
+using TaxiApp.Application.Users.Commands.UpdateProfilePicture;
+using TaxiApp.Application.Users.Queries.GetProfile;
+using TaxiApp.Application.Users.Queries.GetProfilePicture;
 using TaxiApp.Application.Users.Queries.GetUser;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
@@ -22,6 +25,13 @@ namespace TaxiApp.WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [HasPermission(PermissionNames.RoleAdmin)]
+        public async Task<IActionResult> Get()
+        {
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<ActionResult<UserProfileResponse>> Get(Guid id)
@@ -30,30 +40,46 @@ namespace TaxiApp.WebApi.Controllers
             return Ok(new UserProfileResponse(user));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<IActionResult> Update(Guid id, UpdateUserProfileRequest updateUserProfileRequest)
         {
-            await mediator.Send(updateUserProfileRequest.MapToUpdateUesrProfileCommand(id));
+            await mediator.Send(updateUserProfileRequest.MapToUpdateUesrProfileCommand());
             return Ok();
         }
 
-        [HttpPut("{id}/password")]
+        [HttpPut("password")]
         [HasPermission(PermissionNames.CanUpdateProfile)]
-        public async Task<IActionResult> ChangePassword(Guid id, [FromBody] ChangePasswordRequest changePasswordRequest)
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest changePasswordRequest)
         {
-            await mediator.Send(changePasswordRequest.MapToChangePasswordCommand(id));
+            await mediator.Send(changePasswordRequest.MapToChangePasswordCommand());
             return Ok();
         }
 
-        [HttpPost("blob")]
+        [HttpPost("image")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
         [AllowAnonymous]
         public async Task<IActionResult> PostImage(IFormFile file)
-        {
-            using Stream stream = file.OpenReadStream();
-            Guid fileId = await blobService.UploadAsync(stream, file.ContentType);
+        {            
+            await mediator.Send(new UpdateProfilePictureCommand(file));
+            return Ok();
+        }
 
-            return Ok(fileId);
+        [HttpGet("image")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
+        [AllowAnonymous]
+        public async Task<ActionResult<ProfilePictureResponse>> GetImage()
+        {
+            var file = await mediator.Send(new GetProfilePictureQuery());
+            return Ok(new ProfilePictureResponse(file));
+        }
+
+        [HttpGet("profile")]
+        [HasPermission(PermissionNames.CanUpdateProfile)]
+        public async Task<ActionResult<UserProfileResponse>> GetProfile()
+        {
+            var user = await mediator.Send(new GetCurrentUserQuery());            
+            return Ok(new UserProfileResponse(user));
         }
     }
 }

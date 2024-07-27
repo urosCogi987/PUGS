@@ -25,7 +25,6 @@ namespace TaxiApp.Persistence.Repositories
                 .Where(x => x.Id == id)                
                 .FirstOrDefaultAsync();
                 
-
             return x;
         }
 

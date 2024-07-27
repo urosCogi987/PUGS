@@ -1,6 +1,6 @@
 ﻿using TaxiApp.Domain.Entities;
 
-namespace TaxiApp.Application.Dtos
+namespace TaxiApp.Application.Users.Dtos
 {
     public sealed class UserProfileDto
     {
@@ -11,7 +11,7 @@ namespace TaxiApp.Application.Dtos
             Name = user.Name;
             Surname = user.Surname;
             Address = user.Address;
-            DateOfBirth = user.DateOfBirth;            
+            DateOfBirth = user.DateOfBirth;
             Status = user.UserStatus.ToString();
             roles.ForEach(x => Roles.Add(x.Name));
         }

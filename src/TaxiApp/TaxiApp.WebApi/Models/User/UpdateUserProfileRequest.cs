@@ -4,8 +4,7 @@ namespace TaxiApp.WebApi.Models.User
 {
     public class UpdateUserProfileRequest : UserRequest
     {
-
-       public UpdateUserProfileCommand MapToUpdateUesrProfileCommand(Guid id)
-            => new UpdateUserProfileCommand(id, Username, Name, Surname, Address, DateOfBirth);
+       public UpdateUserProfileCommand MapToUpdateUesrProfileCommand()
+            => new UpdateUserProfileCommand(Username, Name, Surname, Address, DateOfBirth);
     }
 }

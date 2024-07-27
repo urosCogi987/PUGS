@@ -15,6 +15,7 @@ namespace TaxiApp.Infrastructure.Authentication
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var tokenMinutes = double.Parse(configuration["Jwt:AccessTokenDurationInMinutes"]!);
 
             var claims = new[]
             {
@@ -26,7 +27,7 @@ namespace TaxiApp.Infrastructure.Authentication
             var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
                                              configuration["Jwt:Audience"],
                                              claims,
-                                             expires: DateTime.Now.AddMinutes(30),
+                                             expires: DateTime.Now.AddMinutes(tokenMinutes), 
                                              signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,4 +1,4 @@
-﻿using TaxiApp.Application.Dtos;
+﻿using TaxiApp.Application.Users.Dtos;
 
 namespace TaxiApp.WebApi.Models.User
 {
