@@ -10,24 +10,24 @@ using TaxiApp.Kernel.Exeptions;
 namespace TaxiApp.Application.Users.Commands.Refresh
 {
     internal sealed class RefreshTokenCommandHandler(
-        IRefreshTokenRepository refreshTokenRepository,
-        IUserContext userContext,
+        IRefreshTokenRepository refreshTokenRepository,        
         IJwtProvider jwtProvider,
         IUserRepository userRepository,
         IConfiguration configuration) : IRequestHandler<RefreshTokenCommand, TokensDto>
     {
         public async Task<TokensDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            if (!userContext.IsAuthenticated)
-                throw new ApplicationException("User not authenticated.");
-
-            User? user = await userRepository.GetUserWithRefreshTokens(userContext.UserId);
-            if (user is null)
-                throw new ApplicationException("User does not exist.");
-
-            RefreshToken? refreshToken = user?.RefreshTokens?.FirstOrDefault(x => x.Value == request.RefreshToken);
+            var refreshToken = await refreshTokenRepository.Find(x => x.Value == request.RefreshToken);
             if (refreshToken is null)
+            {
                 throw new InvalidRequestException(DomainErrors.InvalidRefreshToken);
+            }
+
+            var user = await userRepository.GetUserWithRefreshTokens(refreshToken.UserId);
+            if (user is null)
+            {
+                throw new InvalidRequestException(DomainErrors.InvalidRefreshToken);
+            }
 
             if (refreshToken.IsUsed)
             {
@@ -41,7 +41,7 @@ namespace TaxiApp.Application.Users.Commands.Refresh
             {
                 refreshToken.UseToken();
                 await refreshTokenRepository.UpdateItemAsync(refreshToken);
-            }
+            }            
 
             var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken(), user!.Id);
             await refreshTokenRepository.AddItemAsync(RefreshToken.Create(

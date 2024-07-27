@@ -1,12 +1,13 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 
 namespace TaxiApp.Persistence.Storage
 {
-    public sealed class BlobService(BlobServiceClient blobServiceClient) : IBlobService
+    public sealed class BlobService(BlobServiceClient blobServiceClient, IConfiguration configuration) : IBlobService
     {
-        private const string containerName = "profile-pictures";
+        private readonly string containerName = configuration["Container-name"]!;
 
         public async Task DeleteAsync(Guid fileId, CancellationToken cancellationToken = default)
         {
@@ -54,16 +55,14 @@ namespace TaxiApp.Persistence.Storage
             {
                 throw new ArgumentException("Stream is either null or unreadable.");
             }
-
-            // Convert stream to byte array
+            
             byte[] byteArray;
             using (var memoryStream = new MemoryStream())
             {
                 stream.CopyTo(memoryStream);
                 byteArray = memoryStream.ToArray();
             }
-
-            // Convert byte array to Base64 string
+            
             return Convert.ToBase64String(byteArray);
         }
     }

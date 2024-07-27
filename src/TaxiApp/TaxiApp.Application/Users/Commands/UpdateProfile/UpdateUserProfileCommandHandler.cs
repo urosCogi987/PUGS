@@ -12,13 +12,17 @@ namespace TaxiApp.Application.Users.Commands.UpdateProfile
         IUserContext userContext) : IRequestHandler<UpdateUserProfileCommand>
     {
         public async Task Handle(UpdateUserProfileCommand request, CancellationToken cancellationToken)
-        {            
-            if (userContext.UserId != request.Id)
-                throw new ForbiddenOperationException(DomainErrors.ForbiddenOperation);
-                       
-            User? user = await userRepository.GetItemByIdAsync(request.Id);
+        {
+            if (!userContext.IsAuthenticated)
+            { 
+                throw new ApplicationException("User not authenticated.");
+            }
+
+            User? user = await userRepository.GetItemByIdAsync(userContext.UserId);
             if (user is null)
+            {
                 throw new InvalidRequestException(DomainErrors.UserDoesNotExist);
+            }                
 
             if (user.Username != request.Username)
             {

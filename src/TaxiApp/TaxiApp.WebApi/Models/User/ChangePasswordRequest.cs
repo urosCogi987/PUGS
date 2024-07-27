@@ -8,7 +8,7 @@ namespace TaxiApp.WebApi.Models.User
         public string Password { get; set; }
         public string RepeatPassword { get; set; }
 
-        public ChangePasswordCommand MapToChangePasswordCommand(Guid id)
-            => new ChangePasswordCommand(id, Password, OldPassword);
+        public ChangePasswordCommand MapToChangePasswordCommand()
+            => new ChangePasswordCommand(Password, OldPassword);
     }
 }
