@@ -1,31 +1,30 @@
-﻿using TaxiApp.Domain.Entities;
+﻿using TaxiApp.Application.Users.Dtos;
 
-namespace TaxiApp.Application.Users.Dtos
+namespace TaxiApp.WebApi.Models.User
 {
-    public class UserProfileDto
+    public class UserListItemResponse
     {
-        protected UserProfileDto(User user, List<Role> roles)
+        public UserListItemResponse(UserListItemDto user)
         {
+            Id = user.Id;
             Username = user.Username;
             Email = user.Email;
             Name = user.Name;
             Surname = user.Surname;
             Address = user.Address;
             DateOfBirth = user.DateOfBirth;
-            Status = user.UserStatus.ToString();
-            roles.ForEach(x => Roles.Add(x.Name));
+            RoleNames = user.Roles;
+            Status = user.Status;
         }
 
+        public Guid Id { get; set; }        
         public string Username { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public List<string> Roles { get; set; } = new();
-        public string Status { get; set; }
-
-        public static UserProfileDto Create(User user, List<Role> roles)
-         => new UserProfileDto(user, roles);
+        public List<string> RoleNames { get; set; } 
+        public string Status { get; set; }        
     }
 }

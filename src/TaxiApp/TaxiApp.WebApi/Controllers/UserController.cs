@@ -6,6 +6,7 @@ using TaxiApp.Application.Users.Commands.UpdateProfilePicture;
 using TaxiApp.Application.Users.Queries.GetProfile;
 using TaxiApp.Application.Users.Queries.GetProfilePicture;
 using TaxiApp.Application.Users.Queries.GetUser;
+using TaxiApp.Application.Users.Queries.GetUserList;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.User;
@@ -27,9 +28,10 @@ namespace TaxiApp.WebApi.Controllers
 
         [HttpGet]
         [HasPermission(PermissionNames.RoleAdmin)]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<List<UserListItemResponse>>> Get()
         {
-            return Ok();
+            var users = await mediator.Send(new GetUserListQuery());
+            return Ok(users.ConvertAll(x => new UserListItemResponse(x)));
         }
 
         [HttpGet("{id}")]
@@ -57,8 +59,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpPost("image")]
-        [HasPermission(PermissionNames.CanUpdateProfile)]
-        [AllowAnonymous]
+        [HasPermission(PermissionNames.CanUpdateProfile)]        
         public async Task<IActionResult> PostImage(IFormFile file)
         {            
             await mediator.Send(new UpdateProfilePictureCommand(file));
@@ -66,8 +67,7 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpGet("image")]
-        [HasPermission(PermissionNames.CanUpdateProfile)]
-        [AllowAnonymous]
+        [HasPermission(PermissionNames.CanUpdateProfile)]        
         public async Task<ActionResult<ProfilePictureResponse>> GetImage()
         {
             var file = await mediator.Send(new GetProfilePictureQuery());
