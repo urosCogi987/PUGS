@@ -27,6 +27,26 @@ namespace TaxiApp.Persistence.Repositories
         }        
 
         public async Task<User?> GetUserByVerificationToken(string token)
-            => await _dbContext.Set<VerificationToken>().Where(x => x.Value == token).Select(x => x.User).FirstOrDefaultAsync();        
+        {
+            return await _dbContext.Set<VerificationToken>()
+                .Where(x => x.Value == token)                
+                .Select(x => x.User)                
+                .FirstOrDefaultAsync();
+        }            
+        
+        public async Task<IEnumerable<User>> GetUsersWithRoles()
+        {
+            return await _dbContext.Set<User>()
+                .Include(x => x.Roles)
+                .ToListAsync();
+        }       
+
+        public async Task<User?> GetUserWithRoles(Guid userId)
+        {
+            return await _dbContext.Set<User>()
+                .Include(x => x.Roles)
+                .Where(x => x.Id == userId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

@@ -35,11 +35,11 @@ namespace TaxiApp.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [HasPermission(PermissionNames.CanUpdateProfile)]
-        public async Task<ActionResult<UserProfileResponse>> Get(Guid id)
+        [HasPermission(PermissionNames.RoleAdmin)]
+        public async Task<ActionResult<UserDetailsResponse>> Get(Guid id)
         {
-            var user = await mediator.Send(new GetUserQuery(id));
-            return Ok(new UserProfileResponse(user));
+            var user = await mediator.Send(new GetUserDetailsQuery(id));
+            return Ok(new UserDetailsResponse(user));
         }
 
         [HttpPut]
@@ -74,7 +74,7 @@ namespace TaxiApp.WebApi.Controllers
             return Ok(new ProfilePictureResponse(file));
         }
 
-        [HttpGet("profile")]
+        [HttpGet("current")]
         [HasPermission(PermissionNames.CanUpdateProfile)]
         public async Task<ActionResult<UserProfileResponse>> GetProfile()
         {

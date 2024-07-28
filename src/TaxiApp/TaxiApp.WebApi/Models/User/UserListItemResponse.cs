@@ -8,22 +8,14 @@ namespace TaxiApp.WebApi.Models.User
         {
             Id = user.Id;
             Username = user.Username;
-            Email = user.Email;
-            Name = user.Name;
-            Surname = user.Surname;
-            Address = user.Address;
-            DateOfBirth = user.DateOfBirth;
+            Email = user.Email;            
             RoleNames = user.Roles;
             Status = user.Status;
         }
 
         public Guid Id { get; set; }        
         public string Username { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Address { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string Email { get; set; }        
         public List<string> RoleNames { get; set; } 
         public string Status { get; set; }        
     }

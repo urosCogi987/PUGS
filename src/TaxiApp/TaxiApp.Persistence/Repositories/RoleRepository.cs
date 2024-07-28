@@ -11,12 +11,13 @@ namespace TaxiApp.Persistence.Repositories
         {
         }
 
-        public async Task<List<Role>> GetRoleWithUsers() // menjaj cim stignes
+        public async Task<IEnumerable<Role>> GetRolesForUser(Guid userId)
         {
-            return await _dbContext.Set<Role>()
-                    .AsNoTracking()
-                    .Include(x => x.Users)
-                    .ToListAsync();
+            return await _dbContext.Set<User>()
+                .Include(x => x.Roles)
+                .Where(x => x.Id == userId)
+                .SelectMany(x => x.Roles)
+                .ToListAsync();
         }
     }
 }

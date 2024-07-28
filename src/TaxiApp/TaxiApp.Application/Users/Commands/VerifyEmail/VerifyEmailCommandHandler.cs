@@ -16,13 +16,17 @@ namespace TaxiApp.Application.Users.Commands.VerifyEmail
         {
             User? user = await userRepository.GetUserByVerificationToken(request.VerificationToken);
             if (user is null)
+            {
                 throw new InvalidRequestException(DomainErrors.InvalidVerificationToken);
+            }
 
-            user.VerifyEmail();
+            user.VerifyEmail();            
 
-            List<Role> roles = (await roleRepository.FindAll(x => x.Users.Contains(user))).ToList();
+            var roles = await roleRepository.GetRolesForUser(user.Id);
             if (roles.Any(x => x.Name == RoleNames.User))
+            {
                 user.SetStatus(UserStatus.Active);
+            }            
 
             await userRepository.UpdateItemAsync(user);
         }
