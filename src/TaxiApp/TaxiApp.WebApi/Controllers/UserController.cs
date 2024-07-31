@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Users.Commands.UpdateProfilePicture;
+using TaxiApp.Application.Users.Queries.GetCurrentUserPicture;
 using TaxiApp.Application.Users.Queries.GetProfile;
-using TaxiApp.Application.Users.Queries.GetProfilePicture;
 using TaxiApp.Application.Users.Queries.GetUser;
 using TaxiApp.Application.Users.Queries.GetUserList;
+using TaxiApp.Application.Users.Queries.GetUserPicture;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.User;
@@ -16,7 +17,7 @@ namespace TaxiApp.WebApi.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class UserController(IMediator mediator, IBlobService blobService) : ControllerBase
+    public class UserController(IMediator mediator) : ControllerBase
     {
         [HttpPut("{id}/setStatus")]
         [HasPermission(PermissionNames.RoleAdmin)]
@@ -40,6 +41,14 @@ namespace TaxiApp.WebApi.Controllers
         {
             var user = await mediator.Send(new GetUserDetailsQuery(id));
             return Ok(new UserDetailsResponse(user));
+        }
+
+        [HttpGet("image/{id}")]
+        [HasPermission(PermissionNames.RoleAdmin)]
+        public async Task<ActionResult<ProfilePictureResponse>> GetImageById(Guid id)
+        {
+            var file = await mediator.Send(new GetUserPictureQuery(id));
+            return Ok(new ProfilePictureResponse(file));
         }
 
         [HttpPut]
@@ -70,7 +79,7 @@ namespace TaxiApp.WebApi.Controllers
         [HasPermission(PermissionNames.CanUpdateProfile)]        
         public async Task<ActionResult<ProfilePictureResponse>> GetImage()
         {
-            var file = await mediator.Send(new GetProfilePictureQuery());
+            var file = await mediator.Send(new GetCurrentUserPictureQuery());
             return Ok(new ProfilePictureResponse(file));
         }
 
