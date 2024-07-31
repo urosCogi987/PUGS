@@ -3,5 +3,5 @@ using TaxiApp.Application.Users.Dtos;
 
 namespace TaxiApp.Application.Users.Queries.GetUser
 {
-    public sealed record GetUserQuery(Guid id) : IRequest<UserProfileDto>;    
+    public sealed record GetUserDetailsQuery(Guid Id) : IRequest<UserDetailsDto>;    
 }

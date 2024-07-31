@@ -8,22 +8,19 @@ namespace TaxiApp.Infrastructure.Authentication
     {
         public async Task<HashSet<string>> GetPermissionsAsync(Guid userId)
         {
-            List<ICollection<Permission>> roles = await dbContext.Set<Role>()
-                            .Include(x => x.Users)
-                            .Where(x => x.Users.Any(y => y.Id == userId))
-                            .Select(x => x.Permissions).ToListAsync();
+            ICollection<Role>[] roles = await dbContext.Set<User>()
+                .Include(x => x.Roles)
+                .ThenInclude(x => x.Permissions)
+                .Where(x => x.Id == userId)
+                .Select(x => x.Roles)
+                .ToArrayAsync();
 
-            HashSet<string> permissionHashSet = new();            
-            
-            foreach (var role in roles)
-            {
-                foreach (var permission in role)
-                {
-                    permissionHashSet.Add(permission.Name);                    
-                }
-            }
-            
-            return permissionHashSet;
+
+            return roles
+                .SelectMany(x => x)
+                .SelectMany(x => x!.Permissions!)
+                .Select(x => x.Name)
+                .ToHashSet();            
         }
     }
 }

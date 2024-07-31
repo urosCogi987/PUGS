@@ -5,5 +5,6 @@ namespace TaxiApp.Domain.Repositories
 {
     public interface IRoleRepository : IRepository<Role>
     {
+        Task<IEnumerable<Role>> GetRolesForUser(Guid userId);
     }
 }

@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using TaxiApp.Application.Abstractions;
+using TaxiApp.Application.Users.Queries.GetCurrentUserPicture;
 
 namespace TaxiApp.Application.Users.Queries.GetProfilePicture
 {
-    internal sealed class GetProfilePictureQueryHandler(
+    internal sealed class GetCurrentUserPictureQueryHandler(
         IBlobService blobService,
-        IUserContext userContext) : IRequestHandler<GetProfilePictureQuery, FileResponse>
+        IUserContext userContext) : IRequestHandler<GetCurrentUserPictureQuery, FileResponse>
     {
-        public async Task<FileResponse> Handle(GetProfilePictureQuery request, CancellationToken cancellationToken)
+        public async Task<FileResponse> Handle(GetCurrentUserPictureQuery request, CancellationToken cancellationToken)
         {
             if (!userContext.IsAuthenticated)
             {

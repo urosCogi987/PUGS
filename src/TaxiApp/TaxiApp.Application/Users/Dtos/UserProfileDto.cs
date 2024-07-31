@@ -2,9 +2,9 @@
 
 namespace TaxiApp.Application.Users.Dtos
 {
-    public sealed class UserProfileDto
+    public class UserProfileDto
     {
-        private UserProfileDto(User user, List<Role> roles)
+        protected UserProfileDto(User user, List<Role> roles)
         {
             Username = user.Username;
             Email = user.Email;
