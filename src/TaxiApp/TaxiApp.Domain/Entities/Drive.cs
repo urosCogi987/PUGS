@@ -6,11 +6,12 @@ namespace TaxiApp.Domain.Entities
     public sealed class Drive : BaseEntity
     {
         private Drive(Guid id, Guid userId, string fromAddress, string toAddress, 
-                      DriveStatus status, int distance, int driveTime, double price) : base(id)
+                      DriveStatus status, double distance, int driveTime, double price, int driverArrivingTime) : base(id)
         {            
             UserId = userId;
             FromAddress = fromAddress;
             ToAddress = toAddress;
+            DriverArrivingTime = driverArrivingTime;
             Distance = distance;
             DriveTime = driveTime;
             Price = price;
@@ -22,11 +23,12 @@ namespace TaxiApp.Domain.Entities
         public User User { get; set; }
         public Guid? DriverId { get; private set; }
         public User? Driver { get; set; }
+
         public string FromAddress { get; private set; }        
         public string ToAddress { get; private set; }        
         public int DriveTime { get; private set; }
         public int DriverArrivingTime { get; private set; }
-        public int Distance { get; private set; }
+        public double Distance { get; private set; }
         public double Price { get; set; }
         public DriveStatus Status { get; private set; }
         public DateTime CreatedOn { get; private set; }
@@ -40,7 +42,7 @@ namespace TaxiApp.Domain.Entities
         }            
 
         public static Drive Create(Guid id, Guid userId, string fromAddress, string toAddress, 
-                                   DriveStatus status, int distance, int driveTime, double price)
-            => new Drive(id, userId, fromAddress, toAddress, status, distance, driveTime, price);
+                                   DriveStatus status, double distance, int driveTime, double price, int driverArrivingTime)
+            => new Drive(id, userId, fromAddress, toAddress, status, distance, driveTime, price, driverArrivingTime);
     }
 }

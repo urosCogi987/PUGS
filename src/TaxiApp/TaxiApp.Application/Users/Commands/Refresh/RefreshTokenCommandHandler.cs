@@ -48,7 +48,7 @@ namespace TaxiApp.Application.Users.Commands.Refresh
                 Guid.NewGuid(), 
                 user!.Id, 
                 tokensDto.RefreshToken,
-                DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:VerificationTokenExpiryTimeInMinutes"]!))));
+                DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:RefreshTokenExpiryTimeInMinutes"]!))));
 
             return tokensDto;
         }

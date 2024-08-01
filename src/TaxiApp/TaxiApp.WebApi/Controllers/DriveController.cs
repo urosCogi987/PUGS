@@ -17,11 +17,19 @@ namespace TaxiApp.WebApi.Controllers
     {
         [HttpPost]
         [HasPermission(PermissionNames.CanRequestDrive)]
-        public async Task<ActionResult<DriveCreatedResponse>> Create([FromBody] CreateDriveRequest createDriveRequest)
+        public async Task<ActionResult<CreatedDriveResponse>> Create([FromBody] CreateDriveRequest createDriveRequest)
         {
-            CreatedDriveDto createdDriveDto = await mediator.Send(createDriveRequest.MapToCreateDriveCommand());
-            return Ok(new DriveCreatedResponse(createdDriveDto));
+            var driveDto = await mediator.Send(createDriveRequest.MapToCreateDriveCommand());
+            return Ok(new CreatedDriveResponse(driveDto));
         }
+
+
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="acceptDriveRequest"></param>
+        /// <returns></returns>
 
         [HttpPut("{id}/accept")]
         [HasPermission(PermissionNames.CanAcceptDrive)]

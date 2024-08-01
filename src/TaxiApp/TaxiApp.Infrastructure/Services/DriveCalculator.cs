@@ -8,9 +8,7 @@ namespace TaxiApp.Infrastructure.Services
         private const int _timeDelimeter = 1000;
         // PRICE DOUBLE
         public (double estimatedPrice, int estimatedTime, int distance) CalculateDrive(double fromLatitude, double fromLongitude, double toLatitude, double toLongitude)
-        {            
-            
-
+        {                        
             double rlat1 = Math.PI * fromLatitude / 180;
             double rlat2 = Math.PI * toLatitude / 180;
             double theta = fromLongitude - toLongitude;
@@ -26,6 +24,13 @@ namespace TaxiApp.Infrastructure.Services
             Random random = new();
             int dist = random.Next(1, 10000);
             return (dist * _pricePerMeterInEur, dist / _timeDelimeter, dist);
+        }
+
+        public (int estimatedDriverArrivalTime, double estimatedPrice) CalculateDriveV2(double distance)
+        {
+            Random random = new();
+            int driverArrivalTime = random.Next(1, 10);
+            return (driverArrivalTime, distance / _pricePerMeterInEur);
         }
     }
 }

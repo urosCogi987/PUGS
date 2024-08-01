@@ -16,33 +16,17 @@ namespace TaxiApp.WebApi.FluentValidation
                 .NotEmpty()
                 .WithMessage(FluentValidationMessages.ToAddressIsRequired);
 
-            RuleFor(x => x.ToLatitude)
+            RuleFor(x => x.Distance)
                 .NotEmpty()
-                .WithMessage(FluentValidationMessages.ToLatitudeIsRequired)
-                .LessThanOrEqualTo(80)
-                .GreaterThanOrEqualTo(-80)
-                .WithMessage(FluentValidationMessages.ValidLatitudes);
+                .WithMessage(FluentValidationMessages.DistanceIsRequired)
+                .GreaterThan(0)
+                .WithMessage(FluentValidationMessages.DistanceHasToBeRealNumber);
 
-            RuleFor(x => x.ToLongitude)
+            RuleFor(x => x.EstimatedDuration)
                 .NotEmpty()
-                .WithMessage(FluentValidationMessages.ToLongitudeIsRequired)
-                .LessThanOrEqualTo(180)
-                .GreaterThanOrEqualTo(-180)
-                .WithMessage(FluentValidationMessages.ValidLongitudes);
-
-            RuleFor(x => x.FromLatitude)
-                .NotEmpty()
-                .WithMessage(FluentValidationMessages.FromLatitudeIsRequired)
-                .LessThanOrEqualTo(80)
-                .GreaterThanOrEqualTo(-80)
-                .WithMessage(FluentValidationMessages.ValidLatitudes);
-
-            RuleFor(x => x.FromLongitude)
-               .NotEmpty()
-               .WithMessage(FluentValidationMessages.FromLongitudeIsRequired)
-               .LessThanOrEqualTo(180)
-               .GreaterThanOrEqualTo(-180)
-               .WithMessage(FluentValidationMessages.ValidLongitudes);
+                .WithMessage(FluentValidationMessages.EstimatedDurationIsRequired)
+                .GreaterThan(0)
+                .WithMessage(FluentValidationMessages.EstimatedDurationHasToBeRealNumber);
         }
     }
 }

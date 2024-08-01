@@ -20,7 +20,7 @@ namespace TaxiApp.WebApi.Models.Drive
         public string ToAddress { get; set; }
         public int DriveTime { get; set; }
         public int DriverArrivingTime { get; set; }
-        public int Distance { get; set; }
+        public double Distance { get; set; }
         public double Price { get; set; }
         public DateTime CreatedOn { get; set; }
         public string Status { get; set; }

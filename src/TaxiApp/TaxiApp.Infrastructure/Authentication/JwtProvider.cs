@@ -11,6 +11,7 @@ namespace TaxiApp.Infrastructure.Authentication
 {
     public sealed class JwtProvider(IConfiguration configuration) : IJwtProvider
     {
+        private const int _verificationTokenLength = 8;
         public string GenerateAccessToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!));
@@ -33,7 +34,7 @@ namespace TaxiApp.Infrastructure.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string GenerateEmptyToken()
+        public string GenerateEmptyToken(bool isVerificationToken = false)
         {
             var randomNumber = new byte[64];
 
@@ -41,7 +42,13 @@ namespace TaxiApp.Infrastructure.Authentication
             {
                 rng.GetBytes(randomNumber);
 
-                return Convert.ToBase64String(randomNumber);
+                var token = Convert.ToBase64String(randomNumber);
+                if (isVerificationToken)
+                {
+                    return token.Substring(0, _verificationTokenLength);
+                }
+
+                return token;
             }
         }
     }
