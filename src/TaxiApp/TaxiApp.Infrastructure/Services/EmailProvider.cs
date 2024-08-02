@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Net.Mail;
 using TaxiApp.Application.Abstractions;
 
 namespace TaxiApp.Infrastructure.Services
@@ -10,10 +8,7 @@ namespace TaxiApp.Infrastructure.Services
     public sealed class EmailProvider(IConfiguration configuration) : IEmailProvider
     {
         public async Task SendConfirmationEmaiAsync(string email, string token)
-        {
-            //string content = $"{configuration["Sendgrid:VerificationReddirectLink"]}";
-            //content = content += token;            
-
+        {            
             var client = new SendGridClient(configuration["Sendgrid:ApiKey"]);
             var from_email = new EmailAddress(configuration["Sendgrid:Verifiedsender"]);
             var subject = "VerifyEmail";

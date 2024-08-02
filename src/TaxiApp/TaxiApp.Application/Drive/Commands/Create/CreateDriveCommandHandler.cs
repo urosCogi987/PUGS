@@ -14,12 +14,12 @@ namespace TaxiApp.Application.Drive.Commands.Create
     {
         public async Task<CreatedDriveDto> Handle(CreateDriveCommand request, CancellationToken cancellationToken)
         {
-            (int estimatedDriverArrivalTime, double estimatedPrice) = driveCalculator.CalculateDriveV2(request.Distance);
-
             if (!userContext.IsAuthenticated)
             {
                 throw new ApplicationException("User is not authenticated");
             }
+
+            (int estimatedDriverArrivalTime, double estimatedPrice) = driveCalculator.CalculateDriveV2(request.Distance);            
 
             var drive = DriveEntity.Create(
                 Guid.NewGuid(), 
@@ -34,7 +34,7 @@ namespace TaxiApp.Application.Drive.Commands.Create
 
             await driveRepository.AddItemAsync(drive);
 
-            return CreatedDriveDto.Create(estimatedDriverArrivalTime, estimatedPrice);
+            return CreatedDriveDto.Create(drive.Id, estimatedDriverArrivalTime, estimatedPrice);
         }
     }
 }

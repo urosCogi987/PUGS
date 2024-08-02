@@ -2,16 +2,18 @@
 {
     public sealed class CreatedDriveDto
     {
-        private CreatedDriveDto(int estimatedDriverArrivingTime, double etimatedPrice)
+        private CreatedDriveDto(Guid id, int estimatedDriverArrivingTime, double etimatedPrice)
         {
+            Id = id;
             EstimatedDriverArrivingTime = estimatedDriverArrivingTime;
             EstimatedPrice = etimatedPrice;
         }
 
+        public Guid Id { get; set; }
         public int EstimatedDriverArrivingTime { get; set; }
         public double EstimatedPrice { get; set; }
 
-        public static CreatedDriveDto Create(int estimatedDriverArrivingTime, double etimatedPrice)
-            => new CreatedDriveDto(estimatedDriverArrivingTime, etimatedPrice);
+        public static CreatedDriveDto Create(Guid id, int estimatedDriverArrivingTime, double etimatedPrice)
+            => new CreatedDriveDto(id, estimatedDriverArrivingTime, etimatedPrice);
     }
 }

@@ -48,5 +48,16 @@ namespace TaxiApp.Persistence.Repositories
                 .Where(x => x.Id == userId)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<bool> CanUserConfirmDrive(Guid userId, Guid driveId)
+        {
+            var x = await _dbContext.Set<User>()
+                .Include(x => x.DrivesPassanger)
+                .Where(x => x.Id == userId)
+                .Where(x => x.DrivesPassanger.Any(x => x.Id == driveId))
+                .AnyAsync();
+
+            return x;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaxiApp.Application.Drive.Commands.Confirm;
 using TaxiApp.Application.Drive.Queries.Get;
 using TaxiApp.Application.Drive.Queries.GetDriveDetails;
 using TaxiApp.Application.Dtos;
@@ -23,14 +24,15 @@ namespace TaxiApp.WebApi.Controllers
             return Ok(new CreatedDriveResponse(driveDto));
         }
 
-
-        /// <summary>
-        /// /
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="acceptDriveRequest"></param>
-        /// <returns></returns>
-
+        [HttpPut("{id}/confirm")]
+        [HasPermission(PermissionNames.CanRequestDrive)]
+        public async Task<IActionResult> Confirm(Guid id)
+        {
+            await mediator.Send(new ConfirmDriveCommand(id));
+            return Ok();
+        }
+        
+        // dole
         [HttpPut("{id}/accept")]
         [HasPermission(PermissionNames.CanAcceptDrive)]
         public async Task<IActionResult> AcceptDrive(Guid id, [FromBody] AcceptDriveRequest acceptDriveRequest) 
@@ -41,7 +43,7 @@ namespace TaxiApp.WebApi.Controllers
 
         [HttpGet]
         [HasPermission(PermissionNames.CanViewHisDrives)]
-        public async Task<ActionResult<List<GetDrivesResponseListItem>>> Get()
+        public async Task<ActionResult<List<GetDrivesResponseListItem>>> GetDrivesForUser()
         {
             var drives = await mediator.Send(new GetDrivesQuery());
             return Ok(drives.ConvertAll(x => GetDrivesResponseListItem.Create(x)));

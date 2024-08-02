@@ -41,6 +41,9 @@ namespace TaxiApp.Domain.Entities
             RaiseDomainEvent(new DriveAcceptedDomainEvent(Guid.NewGuid(), UserId, driverId));
         }            
 
+        public void ConfirmDrive()
+            => Status = DriveStatus.UserConfirmed;
+
         public static Drive Create(Guid id, Guid userId, string fromAddress, string toAddress, 
                                    DriveStatus status, double distance, int driveTime, double price, int driverArrivingTime)
             => new Drive(id, userId, fromAddress, toAddress, status, distance, driveTime, price, driverArrivingTime);

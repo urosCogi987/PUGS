@@ -11,5 +11,6 @@ namespace TaxiApp.Domain.Repositories
         Task<User?> GetUserByVerificationToken(string token);
         Task<IEnumerable<User>> GetUsersWithRoles();        
         Task<User?> GetUserWithRoles(Guid userId);
+        Task<bool> CanUserConfirmDrive(Guid userId, Guid driveId);
     }
 }
