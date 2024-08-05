@@ -12,5 +12,6 @@ namespace TaxiApp.Domain.Repositories
         Task<IEnumerable<User>> GetUsersWithRoles();        
         Task<User?> GetUserWithRoles(Guid userId);
         Task<bool> CanUserConfirmDrive(Guid userId, Guid driveId);
+        Task<bool> IsUserAdmin(Guid userId);
     }
 }

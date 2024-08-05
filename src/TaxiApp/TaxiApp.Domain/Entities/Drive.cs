@@ -31,6 +31,7 @@ namespace TaxiApp.Domain.Entities
         public double Distance { get; private set; }
         public double Price { get; set; }
         public DriveStatus Status { get; private set; }
+        public int? DriverRating  { get; set; } // nova migracija
         public DateTime CreatedOn { get; private set; }
 
         public void AcceptDrive(Guid driverId, int driverArrivingTime)

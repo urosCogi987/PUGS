@@ -24,3 +24,4 @@ namespace TaxiApp.Application.Users.Commands.SetStatus
         }
     }
 }
+////////////////////////////////////////// RAISE DOMAIN EVENT

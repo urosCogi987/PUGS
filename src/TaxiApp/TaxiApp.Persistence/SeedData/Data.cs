@@ -22,8 +22,11 @@ namespace TaxiApp.Persistence.SeedData
             Permission.Create(Guid.NewGuid(), PermissionNames.CanViewAllDrives),
             Permission.Create(Guid.NewGuid(), PermissionNames.CanRequestDrive),
             Permission.Create(Guid.NewGuid(), PermissionNames.CanAcceptDrive),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewNewDrives),
             Permission.Create(Guid.NewGuid(), PermissionNames.CanViewHisDrives),
-            Permission.Create(Guid.NewGuid(), PermissionNames.CanUpdateProfile)
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanUpdateProfile),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewNewDrives),
+            Permission.Create(Guid.NewGuid(), PermissionNames.CanViewDriveDetails)
         };
 
         internal static List<User> _admins = new List<User>()
@@ -58,6 +61,13 @@ namespace TaxiApp.Persistence.SeedData
                                   _roles.First(x => x.Name == RoleNames.Admin).Id,
                                   _permissions.First(x => x.Name == PermissionNames.CanUpdateProfile).Id),
 
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewNewDrives).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Admin).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewDriveDetails).Id),
 
             // User RolePermission seed
             RolePermission.Create(Guid.NewGuid(),
@@ -72,6 +82,10 @@ namespace TaxiApp.Persistence.SeedData
                                   _roles.First(x => x.Name == RoleNames.User).Id,
                                   _permissions.First(x => x.Name == PermissionNames.CanViewHisDrives).Id),
 
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.User).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewDriveDetails).Id),
+
             // Driver RolePermission seed
             RolePermission.Create(Guid.NewGuid(), 
                                   _roles.First(x => x.Name == RoleNames.Driver).Id,
@@ -83,7 +97,15 @@ namespace TaxiApp.Persistence.SeedData
 
             RolePermission.Create(Guid.NewGuid(),
                                   _roles.First(x => x.Name == RoleNames.Driver).Id,
-                                  _permissions.First(x => x.Name == PermissionNames.CanViewHisDrives).Id)
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewHisDrives).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                                  _roles.First(x => x.Name == RoleNames.Driver).Id,
+                                  _permissions.First(x => x.Name == PermissionNames.CanViewNewDrives).Id),
+
+            RolePermission.Create(Guid.NewGuid(),
+                      _roles.First(x => x.Name == RoleNames.Driver).Id,
+                      _permissions.First(x => x.Name == PermissionNames.CanViewDriveDetails).Id),
         };
 
         internal static List<UserRole> _userRoles = new List<UserRole>()

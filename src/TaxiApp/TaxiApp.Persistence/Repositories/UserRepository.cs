@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
+using TaxiApp.Kernel.Constants;
 
 namespace TaxiApp.Persistence.Repositories
 {
@@ -51,13 +52,25 @@ namespace TaxiApp.Persistence.Repositories
 
         public async Task<bool> CanUserConfirmDrive(Guid userId, Guid driveId)
         {
-            var x = await _dbContext.Set<User>()
-                .Include(x => x.DrivesPassanger)
+            //return await _dbContext.Set<User>()
+            //    .Include(x => x.DrivesPassanger)
+            //    .Where(x => x.Id == userId)
+            //    //.SelectMany(x => )
+            //    .Where(x => x.DrivesPassanger.Any(x => x.Id == driveId))
+            //    .AnyAsync();            
+            return await _dbContext.Set<User>()                
                 .Where(x => x.Id == userId)
-                .Where(x => x.DrivesPassanger.Any(x => x.Id == driveId))
-                .AnyAsync();
+                .SelectMany(x => x.DrivesPassanger)                
+                .AnyAsync(dp => dp.Id == driveId);
+        }
 
-            return x;
+        public async Task<bool> IsUserAdmin(Guid userId)
+        {
+            return await _dbContext.Set<User>()
+                //.Include(x => x.Roles)
+                .Where(x => x.Id  == userId)
+                .SelectMany(x => x.Roles)
+                .AnyAsync(r => r.Name == RoleNames.Admin);                
         }
     }
 }
