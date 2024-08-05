@@ -91,15 +91,7 @@ namespace TaxiApp.WebApi.Controllers
         {
             var user = await mediator.Send(new GetCurrentUserQuery());            
             return Ok(new UserProfileResponse(user));
-        }
-
-        [HttpPost("{id}/rate")]
-        [HasPermission(PermissionNames.CanRequestDrive)]
-        public async Task<IActionResult> RateDriver(Guid id, [FromBody] RateDriverRequest rateDriverRequest)
-        {
-            await mediator.Send(rateDriverRequest.MapToRateDriverCommand(id));
-            return Ok();
-        }
+        }        
 
         // samo za test
         [HttpPost("baseImage")]        

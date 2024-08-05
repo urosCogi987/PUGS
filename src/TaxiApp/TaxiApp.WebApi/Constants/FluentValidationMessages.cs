@@ -39,5 +39,7 @@
 
         public const string EstimatedDurationIsRequired = "Estimated duration is a required field.";
         public const string EstimatedDurationHasToBeRealNumber = "Estimated duration has to be a real number.";
+
+        public const string DriverRatingIsRequired = "Driver rating is a required field.";
     }
 }

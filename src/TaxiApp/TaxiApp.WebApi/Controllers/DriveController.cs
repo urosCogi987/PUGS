@@ -8,6 +8,7 @@ using TaxiApp.Application.Drive.Queries.GetNewDrives;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.Drive;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.Controllers
 {
@@ -62,6 +63,14 @@ namespace TaxiApp.WebApi.Controllers
         {
             await mediator.Send(acceptDriveRequest.MapToAcceptDriveCommand(id));
             return Ok();
-        }                        
+        }
+
+        [HttpPost("{id}/rate/{userId}")]
+        [HasPermission(PermissionNames.CanRequestDrive)]
+        public async Task<IActionResult> RateDriver(Guid id, Guid driverId, [FromBody] RateDriverRequest rateDriverRequest)
+        {
+            await mediator.Send(rateDriverRequest.MapToRateDriverCommand(id, driverId));
+            return Ok();
+        }
     }
 }

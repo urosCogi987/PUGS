@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TaxiApp.Application.Users.Commands.RateDriver
+namespace TaxiApp.Application.Drive.Commands.RateDriver
 {
     internal sealed class RateDriverCommandHandler : IRequestHandler<RateDriverCommand>
     {
