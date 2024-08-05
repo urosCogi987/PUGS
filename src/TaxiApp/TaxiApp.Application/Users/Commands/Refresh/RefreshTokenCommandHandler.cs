@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using TaxiApp.Application.Abstractions;
 using TaxiApp.Application.Constants;
-using TaxiApp.Application.Dtos;
+using TaxiApp.Application.Users.Dtos;
 using TaxiApp.Domain.Entities;
 using TaxiApp.Domain.Repositories;
 using TaxiApp.Kernel.Exeptions;
@@ -43,7 +43,7 @@ namespace TaxiApp.Application.Users.Commands.Refresh
                 await refreshTokenRepository.UpdateItemAsync(refreshToken);
             }            
 
-            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken(), user!.Id);
+            var tokensDto = TokensDto.Create(jwtProvider.GenerateAccessToken(user!), jwtProvider.GenerateEmptyToken());
             await refreshTokenRepository.AddItemAsync(RefreshToken.Create(
                 Guid.NewGuid(), 
                 user!.Id, 

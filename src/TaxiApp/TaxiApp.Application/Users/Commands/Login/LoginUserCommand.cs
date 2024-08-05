@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TaxiApp.Application.Dtos;
+using TaxiApp.Application.Users.Dtos;
 
 namespace TaxiApp.Application.Users.Commands.Login
 {

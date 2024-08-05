@@ -4,8 +4,10 @@ namespace TaxiApp.WebApi.Models.Drive
 {
     public sealed class DriveDetailsResponse
     {
-        private DriveDetailsResponse(DriveEntity drive)
+        public DriveDetailsResponse(DriveEntity drive)
         {
+            UserUsername = drive.User.Username;
+            DriverUsername = drive.Driver != null ? drive.Driver.Username : "";            
             FromAddress = drive.FromAddress;
             ToAddress = drive.ToAddress;
             DriveTime = drive.DriveTime;
@@ -16,6 +18,8 @@ namespace TaxiApp.WebApi.Models.Drive
             Status = drive.Status.ToString();
         }
 
+        public string DriverUsername { get; set; }
+        public string UserUsername { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
         public int DriveTime { get; set; }
@@ -23,10 +27,6 @@ namespace TaxiApp.WebApi.Models.Drive
         public double Distance { get; set; }
         public double Price { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string Status { get; set; }
-
-
-        public static DriveDetailsResponse Create(DriveEntity drive)
-            => new DriveDetailsResponse(drive);
+        public string Status { get; set; }        
     }
 }
