@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Net.Mail;
 using TaxiApp.Application.Abstractions;
 
 namespace TaxiApp.Infrastructure.Services
@@ -10,15 +8,13 @@ namespace TaxiApp.Infrastructure.Services
     public sealed class EmailProvider(IConfiguration configuration) : IEmailProvider
     {
         public async Task SendConfirmationEmaiAsync(string email, string token)
-        {
-            string content = $"{configuration["Sendgrid:VerificationReddirectLink"]}";
-
+        {            
             var client = new SendGridClient(configuration["Sendgrid:ApiKey"]);
             var from_email = new EmailAddress(configuration["Sendgrid:Verifiedsender"]);
             var subject = "VerifyEmail";
             var to_email = new EmailAddress(email);
-            var plainTextContent = $"Verify email: {content}";
-            var htmlContent = $"<strong>Verify email: <a href=\"{content}\">verify</strong>";
+            var plainTextContent = $"Verification code: {token}";
+            var htmlContent = $"<strong>Verification code: {token}</strong>";
             var msg = MailHelper.CreateSingleEmail(from_email, to_email, subject, plainTextContent, htmlContent);
 
             var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
@@ -38,5 +34,7 @@ namespace TaxiApp.Infrastructure.Services
 
             var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
         }
+
+        //TODO: private method to reuse template, or razor syntax template...
     }
 }

@@ -35,8 +35,8 @@ namespace TaxiApp.Application.Users.Commands.Register
                 VerificationToken.Create(
                     Guid.NewGuid(),
                     persistedUser.Id,
-                    jwtProvider.GenerateEmptyToken(),
-                    DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:RefreshTokenExpiryTimeInMinutes"]!))));
+                    jwtProvider.GenerateEmptyToken(true),
+                    DateTime.UtcNow.AddMinutes(int.Parse(configuration["Tokens:VerificationTokenExpiryTimeInMinutes"]!))));
 
             return persistedUser.Id;
         }

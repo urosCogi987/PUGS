@@ -5,5 +5,6 @@ namespace TaxiApp.Domain.Repositories
 {
     public interface IDriveRepository : IRepository<Drive>
     {
+        Task<Drive?> GetDriveWithUsers(Guid id);
     }
 }

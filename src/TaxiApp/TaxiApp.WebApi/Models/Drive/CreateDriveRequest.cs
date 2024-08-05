@@ -5,13 +5,11 @@ namespace TaxiApp.WebApi.Models.Drive
     public sealed class CreateDriveRequest
     {
         public string FromAddress { get; set; }
-        public double FromLatitude { get; set; }
-        public double FromLongitude { get; set; }
         public string ToAddress { get; set; }
-        public double ToLatitude { get; set; }
-        public double ToLongitude { get; set; }
+        public double Distance { get; set; }
+        public int EstimatedDuration { get; set; }
 
         public CreateDriveCommand MapToCreateDriveCommand()
-            => new CreateDriveCommand(FromAddress, FromLatitude, FromLongitude, ToAddress, ToLatitude, ToLongitude);
+            => new CreateDriveCommand(FromAddress, ToAddress, Distance, EstimatedDuration);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaxiApp.Application.Dtos;
+using TaxiApp.Application.Users.Dtos;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.User;
@@ -52,5 +52,6 @@ namespace TaxiApp.WebApi.Controllers
         }
         
         // TO DO ABSTRACT MODEL FOR TOKENS
+        // Logging
     }
 }

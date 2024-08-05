@@ -4,18 +4,19 @@ namespace TaxiApp.WebApi.Models.Drive
 {
     public sealed class GetDrivesResponseListItem
     {
-        private GetDrivesResponseListItem(string fromAddress, string toAddress, DateTime createdOn)
+        public GetDrivesResponseListItem(DriveListItemDto drivesDto)
         {
-            FromAddress = fromAddress;
-            ToAddress = toAddress;
-            CreatedOn = createdOn;
+            Id = drivesDto.Id;
+            FromAddress = drivesDto.FromAddress;
+            ToAddress = drivesDto.ToAddress;
+            CreatedOn = drivesDto.CreatedOn;
+            Status = drivesDto.Status.ToString();
         }
 
+        public Guid Id { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-        public DateTime CreatedOn { get; set; }
-
-        public static GetDrivesResponseListItem Create(DriveListItemDto drivesDto)
-            => new GetDrivesResponseListItem(drivesDto.FromAddress, drivesDto.ToAddress, drivesDto.CreatedOn);
+        public DateTime CreatedOn { get; set; }  
+        public string Status { get; set; }
     }
 }

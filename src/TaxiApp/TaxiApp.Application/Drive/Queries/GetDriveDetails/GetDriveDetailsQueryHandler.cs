@@ -14,15 +14,17 @@ namespace TaxiApp.Application.Drive.Queries.GetDriveDetails
         public async Task<DriveEntity> Handle(GetDriveDetailsQuery request, CancellationToken cancellationToken)
         {
             if (!userContext.IsAuthenticated)
+            {
                 throw new ApplicationException("User not authenticated.");
+            }                
 
-            var drive = await driveRepository.GetItemByIdAsync(request.Id);
+            var drive = await driveRepository.GetDriveWithUsers(request.Id);
             if (drive is null)
             {
                 throw new ApplicationException("Drive does not exist");
             }
 
-            if (drive.UserId !=  userContext.UserId && drive.DriverId != userContext.UserId)
+            if (drive.UserId != userContext.UserId && drive.DriverId != userContext.UserId)
             {
                 throw new ForbiddenOperationException(DomainErrors.ForbiddenOperation);
             }
