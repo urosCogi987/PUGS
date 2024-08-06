@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Drive\Events\**" />
+    <Compile Remove="Dtos\**" />
     <EmbeddedResource Remove="Drive\Events\**" />
+    <EmbeddedResource Remove="Dtos\**" />
     <None Remove="Drive\Events\**" />
+    <None Remove="Dtos\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaxiApp.Domain\TaxiApp.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

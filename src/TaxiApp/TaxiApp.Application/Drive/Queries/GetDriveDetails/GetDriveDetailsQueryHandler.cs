@@ -9,7 +9,8 @@ namespace TaxiApp.Application.Drive.Queries.GetDriveDetails
 {
     internal sealed class GetDriveDetailsQueryHandler(
         IDriveRepository driveRepository,
-        IUserContext userContext) : IRequestHandler<GetDriveDetailsQuery, DriveEntity>
+        IUserContext userContext,
+        IUserRepository userRepository) : IRequestHandler<GetDriveDetailsQuery, DriveEntity>
     {
         public async Task<DriveEntity> Handle(GetDriveDetailsQuery request, CancellationToken cancellationToken)
         {
@@ -24,12 +25,22 @@ namespace TaxiApp.Application.Drive.Queries.GetDriveDetails
                 throw new ApplicationException("Drive does not exist");
             }
 
-            if (drive.UserId != userContext.UserId && drive.DriverId != userContext.UserId)
+            if (!CanUserViewDriveDetails(drive, userContext.UserId, await userRepository.IsUserAdmin(userContext.UserId)))
             {
                 throw new ForbiddenOperationException(DomainErrors.ForbiddenOperation);
             }
             
             return drive;
+        }
+
+        private bool CanUserViewDriveDetails(DriveEntity drive, Guid userId, bool isAdmin)
+        {            
+            if ((drive.UserId != userContext.UserId && drive.DriverId != userContext.UserId) && !isAdmin)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Drive.Commands.Confirm;
 using TaxiApp.Application.Drive.Queries.GetDriveDetails;
 using TaxiApp.Application.Drive.Queries.GetDrives;
+using TaxiApp.Application.Drive.Queries.GetNewDrives;
 using TaxiApp.Infrastructure.Authentication;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.Drive;
+using TaxiApp.WebApi.Models.User;
 
 namespace TaxiApp.WebApi.Controllers
 {
@@ -31,13 +33,21 @@ namespace TaxiApp.WebApi.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("myDrives")]
         [HasPermission(PermissionNames.CanViewHisDrives)]
         public async Task<ActionResult<List<GetDrivesResponseListItem>>> GetDrivesForUser()
         {
             var drives = await mediator.Send(new GetDrivesQuery());
             return Ok(drives.ConvertAll(x => new GetDrivesResponseListItem(x)));
         }
+
+        [HttpGet("new")]
+        [HasPermission(PermissionNames.CanAcceptDrive)]
+        public async Task<ActionResult<List<GetDrivesResponseListItem>>> GetNewDrives()
+        {
+            var drives = await mediator.Send(new GetNewDrivesQuery());
+            return Ok(drives.ConvertAll(x => new GetDrivesResponseListItem(x)));
+        }        
 
         [HttpGet("{id}")]
         [HasPermission(PermissionNames.CanViewHisDrives)]
@@ -46,14 +56,21 @@ namespace TaxiApp.WebApi.Controllers
             var drive = await mediator.Send(new GetDriveDetailsQuery(id));
             return Ok(new DriveDetailsResponse(drive));
         }
-
-        // dole
+        
         [HttpPut("{id}/accept")]
         [HasPermission(PermissionNames.CanAcceptDrive)]
         public async Task<IActionResult> AcceptDrive(Guid id, [FromBody] AcceptDriveRequest acceptDriveRequest) 
         {
             await mediator.Send(acceptDriveRequest.MapToAcceptDriveCommand(id));
             return Ok();
-        }                        
+        }
+
+        [HttpPost("{id}/rate/{userId}")]
+        [HasPermission(PermissionNames.CanRequestDrive)]
+        public async Task<IActionResult> RateDriver(Guid id, Guid driverId, [FromBody] RateDriverRequest rateDriverRequest)
+        {
+            await mediator.Send(rateDriverRequest.MapToRateDriverCommand(id, driverId));
+            return Ok();
+        }
     }
 }

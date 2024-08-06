@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxiApp.Application.Abstractions;
@@ -9,6 +10,7 @@ using TaxiApp.Application.Users.Queries.GetUser;
 using TaxiApp.Application.Users.Queries.GetUserList;
 using TaxiApp.Application.Users.Queries.GetUserPicture;
 using TaxiApp.Infrastructure.Authentication;
+using TaxiApp.Infrastructure.Services;
 using TaxiApp.Kernel.Constants;
 using TaxiApp.WebApi.Models.User;
 
@@ -16,8 +18,8 @@ namespace TaxiApp.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
-    [ApiController]
-    public class UserController(IMediator mediator) : ControllerBase
+    [ApiController]                                // samo za test
+    public class UserController(IMediator mediator, IBlobService blobService) : ControllerBase
     {
         [HttpPut("{id}/setStatus")]
         [HasPermission(PermissionNames.RoleAdmin)]
@@ -89,6 +91,16 @@ namespace TaxiApp.WebApi.Controllers
         {
             var user = await mediator.Send(new GetCurrentUserQuery());            
             return Ok(new UserProfileResponse(user));
+        }        
+
+        // samo za test
+        [HttpPost("baseImage")]        
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadBaseImage(IFormFile file)
+        {
+            using Stream stream = file.OpenReadStream();
+            var fileName = await blobService.UploadAsync(stream, file.ContentType, Guid.Empty);
+            return Ok();
         }
     }
 }
