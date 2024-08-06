@@ -2,5 +2,5 @@
 
 namespace TaxiApp.Application.Drive.Commands.Accept
 {
-    public sealed record AcceptDriveCommand(Guid DriveId, int DriverArrivingTime) : IRequest;
+    public sealed record AcceptDriveCommand(Guid DriveId) : IRequest;
 }
