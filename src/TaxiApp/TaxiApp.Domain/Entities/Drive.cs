@@ -31,13 +31,12 @@ namespace TaxiApp.Domain.Entities
         public double Distance { get; private set; }
         public double Price { get; set; }
         public DriveStatus Status { get; private set; }
-        public int? DriverRating  { get; set; } // nova migracija
+        public int? DriverRating  { get; set; }
         public DateTime CreatedOn { get; private set; }
 
-        public void AcceptDrive(Guid driverId, int driverArrivingTime)
+        public void AcceptDrive(Guid driverId)
         {
-            DriverId = driverId;
-            DriverArrivingTime = driverArrivingTime;
+            DriverId = driverId;            
             Status = DriveStatus.DriverConfirmed;            
             RaiseDomainEvent(new DriveAcceptedDomainEvent(Guid.NewGuid(), UserId, driverId));
         }            

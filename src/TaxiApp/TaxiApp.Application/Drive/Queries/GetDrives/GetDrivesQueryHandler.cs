@@ -16,7 +16,7 @@ namespace TaxiApp.Application.Drive.Queries.GetDrives
                 throw new ApplicationException("User not authenticated.");
             }                
 
-            var drives = (await driveRepository.FindAll(x => x.DriverId == userContext.UserId || x.UserId == userContext.UserId)).ToList();
+            var drives = (await driveRepository.GetItemsAsync()).ToList();
 
             return drives.ConvertAll(x => DriveListItemDto.Create(x.Id, x.FromAddress, x.ToAddress, x.CreatedOn, x.Status));
         }

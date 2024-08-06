@@ -29,8 +29,12 @@ namespace TaxiApp.Application.Drive.Commands.Accept
             {
                 throw new ApplicationException("Drive does not exist");
             }                
+            if (drive.Status != DriveStatus.UserConfirmed)
+            {
+                throw new InvalidOperationException("Drive is already in progress");
+            }
 
-            drive.AcceptDrive(userContext.UserId, request.DriverArrivingTime);            
+            drive.AcceptDrive(userContext.UserId);            
 
             await driveRepository.UpdateItemAsync(drive);
         }

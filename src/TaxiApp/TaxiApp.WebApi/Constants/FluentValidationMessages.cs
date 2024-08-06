@@ -30,9 +30,7 @@
             = $"Must be between {StringLengths.MinPasswordLength} and {StringLengths.MaxPasswordLength} characters.";
 
         public const string FromAddressIsRequired = "From address is a required field.";
-        public const string ToAddressIsRequired = "To address is a required field.";
-        public const string DriverArrivingTimeIsRequired = "Driver ariving time is a required field.";
-        public const string DriverArrivingTimeGreaterThanZero = "Driver ariving time has to be greater than 0.";
+        public const string ToAddressIsRequired = "To address is a required field.";        
         
         public const string DistanceIsRequired = "Distance is a required field.";
         public const string DistanceHasToBeRealNumber = "Distance has to be a real number.";
