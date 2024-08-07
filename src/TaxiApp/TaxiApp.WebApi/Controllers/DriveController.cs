@@ -75,11 +75,11 @@ namespace TaxiApp.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/rate/{userId}")]
+        [HttpPut("{id}/rate")]
         [HasPermission(PermissionNames.CanRequestDrive)]
-        public async Task<IActionResult> RateDriver(Guid id, Guid driverId, [FromBody] RateDriverRequest rateDriverRequest)
+        public async Task<IActionResult> RateDriver(Guid id, [FromBody] RateDriverRequest rateDriverRequest)
         {
-            await mediator.Send(rateDriverRequest.MapToRateDriverCommand(id, driverId));
+            await mediator.Send(rateDriverRequest.MapToRateDriverCommand(id));
             return Ok();
         }
     }

@@ -44,6 +44,9 @@ namespace TaxiApp.Domain.Entities
         public void ConfirmDrive()
             => Status = DriveStatus.UserConfirmed;
 
+        public void RateDriver(int driverRating)
+            => DriverRating = driverRating;
+
         public static Drive Create(Guid id, Guid userId, string fromAddress, string toAddress, 
                                    DriveStatus status, double distance, int driveTime, double price, int driverArrivingTime)
             => new Drive(id, userId, fromAddress, toAddress, status, distance, driveTime, price, driverArrivingTime);
