@@ -10,7 +10,11 @@ namespace TaxiApp.WebApi.FluentValidation
         {
             RuleFor(x => x.Rating)
                 .NotEmpty()
-                .WithMessage(FluentValidationMessages.DriverRatingIsRequired);
+                .WithMessage(FluentValidationMessages.DriverRatingIsRequired)
+                .GreaterThanOrEqualTo(1)
+                .WithMessage(FluentValidationMessages.DriverRatingGreaterOrEqual)
+                .LessThanOrEqualTo(5)
+                .WithMessage(FluentValidationMessages.DriverRatingLessThanOrEqual);
         }
     }
 }

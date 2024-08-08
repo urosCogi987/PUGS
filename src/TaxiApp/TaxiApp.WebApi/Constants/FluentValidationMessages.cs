@@ -39,5 +39,8 @@
         public const string EstimatedDurationHasToBeRealNumber = "Estimated duration has to be a real number.";
 
         public const string DriverRatingIsRequired = "Driver rating is a required field.";
+        public const string DriverRatingGreaterOrEqual = "Driver rating has to be greater or equal to 1.";
+        public const string DriverRatingLessThanOrEqual = "Driver rating has to be less than or equal to 5.";
+
     }
 }

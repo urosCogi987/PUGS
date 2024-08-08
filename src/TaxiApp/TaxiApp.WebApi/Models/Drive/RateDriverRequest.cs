@@ -6,7 +6,7 @@ namespace TaxiApp.WebApi.Models.Drive
     {
         public int Rating { get; set; }
 
-        public RateDriverCommand MapToRateDriverCommand(Guid id, Guid driverId)
-            => new RateDriverCommand(id, driverId, Rating);
+        public RateDriverCommand MapToRateDriverCommand(Guid id)
+            => new RateDriverCommand(id, Rating);
     }
 }
